@@ -58,7 +58,13 @@
               ${cfg.desktopSession}
             else
               ${config.security.wrapperDir}/gamescope \
-              --fullscreen --steam --rt --immediate-flips -- \
+              ${lib.concatStringsSep " " ([
+                "--fullscreen"
+                "--steam"
+                "--rt"
+                "--immediate-flips"
+              ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" ]
+                ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
               ${(pkgs.steam.override {
                 buildFHSEnv = pkgs.buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
