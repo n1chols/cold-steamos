@@ -75,6 +75,7 @@
               text = ''
                 #!/bin/sh
                 touch /tmp/switch-to-desktop
+                sleep 1
                 steam -shutdown
               '';
               executable = true;
