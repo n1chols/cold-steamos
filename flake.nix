@@ -55,9 +55,9 @@
             #!/bin/sh
             if [ -f /tmp/switch-to-desktop ]; then
               rm /tmp/switch-to-desktop
-              ${cfg.desktopSession}
+              exec ${cfg.desktopSession}
             else
-              ${config.security.wrapperDir}/gamescope \
+              exec ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
               ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam \
               -tenfoot -steamos3 -pipewire-dmabuf \
