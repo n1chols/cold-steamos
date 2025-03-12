@@ -74,7 +74,8 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
-                touch /tmp/switch-to-desktop && steam -shutdown
+                touch /tmp/switch-to-desktop
+                pkill -f gamescope
               '';
               executable = true;
             }
