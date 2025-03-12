@@ -74,10 +74,10 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
+                touch /tmp/switch-to-desktop
                 > /tmp/switch-to-desktop
-                sleep 5
+                sleep 20
                 pkill -f gamescope
-                > /tmp/switch-to-desktop
               '';
               executable = true;
             }
