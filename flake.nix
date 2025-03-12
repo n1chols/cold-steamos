@@ -51,11 +51,6 @@
         # Install gamescope, steam with bwrap override, and steam-session script
         environment.systemPackages = [
           pkgs.gamescope
-          (pkgs.steam.override {
-            buildFHSEnv = pkgs.buildFHSEnv.override {
-              bubblewrap = "${config.security.wrapperDir}/..";
-            };
-          })
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             exec ${config.security.wrapperDir}/gamescope \
