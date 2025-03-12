@@ -53,11 +53,16 @@
           pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
-            exec ${config.security.wrapperDir}/gamescope \
-            --fullscreen --steam --rt --immediate-flips -- \
-            ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam \
-            -tenfoot -steamos3 -pipewire-dmabuf \
-            2> /home/${cfg.user}/sstest.log
+            if [ -f /tmp/switch-to-desktop ]; then
+              rm /tmp/switch-to-desktop
+              exec ${cfg.desktopSession}
+            else
+              exec ${config.security.wrapperDir}/gamescope \
+              --fullscreen --steam --rt --immediate-flips -- \
+              ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam \
+              -tenfoot -steamos3 -pipewire-dmabuf \
+              > /dev/null 2>&1
+            fi
           '')
         ];
 
@@ -69,8 +74,8 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
+                touch /tmp/switch-to-desktop
                 steam -shutdown
-                ${cfg.desktopSession}
               '';
               executable = true;
             }
