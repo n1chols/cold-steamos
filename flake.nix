@@ -74,7 +74,7 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
-                echo -n > /tmp/switch-to-desktop
+                touch /tmp/switch-to-desktop
                 steam -shutdown
               '';
               executable = true;
