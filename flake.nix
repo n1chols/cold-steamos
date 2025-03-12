@@ -60,10 +60,11 @@
               ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
               ${(pkgs.steam.override {
-                buildFHSEnv = pkgs.buildFHSEnv.override {
-                  bubblewrap = "${config.security.wrapperDir}/..";
-                  extraBwrapArgs = [ "--bind /tmp /tmp" ];
-                };
+                buildFHSEnv = { extraBwrapArgs ? [], ... } @ args:
+                  pkgs.buildFHSEnv (args // {
+                    extraBwrapArgs = extraBwrapArgs ++ [ "--bind /tmp /tmp" ];
+                    bubblewrap = "${config.security.wrapperDir}/..";
+                  });
               })}/bin/steam \
               -tenfoot -steamos3 -pipewire-dmabuf \
               > /dev/null 2>&1
