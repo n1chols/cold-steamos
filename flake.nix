@@ -37,8 +37,8 @@
           };
         };
         environment.systemPackages = [
-          pkgs.steam
           pkgs.gamescope
+          pkgs.steam
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             exec ${config.security.wrapperDir}/gamescope -f -e -- ${pkgs.steam}/bin/steam -tenfoot -steamos3 > /dev/null 2>&1
