@@ -5,6 +5,7 @@
     nixosModules.default = { config, lib, pkgs, ... }: let
       cfg = config.steam-console;
     in {
+      # Define options
       options.steam-console = {
         enable = lib.mkOption {
           type = lib.types.bool;
@@ -23,6 +24,7 @@
         };
       };
 
+      # Start of config
       config = lib.mkIf cfg.enable {
         # Add capabilities for gamescope realtime and setuid for bubblewrap
         security.wrappers = {
