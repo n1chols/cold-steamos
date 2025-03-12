@@ -77,6 +77,7 @@
                 #!/bin/sh
                 > /tmp/switch-to-desktop
                 steam -shutdown
+                pkill -f gamescope
               '';
               executable = true;
             }
