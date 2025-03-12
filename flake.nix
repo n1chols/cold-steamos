@@ -53,7 +53,7 @@
           pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
-            if [ -f /tmp/switch-to-desktop ]; then
+            if [ -f /home/user/switch-to-desktop ]; then
               rm /home/user/switch-to-desktop
               exec ${cfg.desktopSession}
             else
