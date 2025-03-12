@@ -55,7 +55,7 @@
             #!/bin/sh
             if [ -f /tmp/switch-to-desktop ]; then
               rm /tmp/switch-to-desktop
-              exec ${cfg.desktopSession}
+              ${cfg.desktopSession}
             else
               exec ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
