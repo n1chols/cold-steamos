@@ -59,7 +59,7 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- \
-            ${pkgs.steam}/bin/steam -tenfoot -steamos3 -pipewire-dmabuf
+            ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam -tenfoot -steamos3 -pipewire-dmabuf
           '')
         ];
 
