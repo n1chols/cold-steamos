@@ -10,6 +10,14 @@
           type = lib.types.bool;
           default = false;
         };
+        enableHDR = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+        };
+        enableVRR = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+        };
         enableDecky = lib.mkOption {
           type = lib.types.bool;
           default = false;
