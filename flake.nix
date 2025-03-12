@@ -80,6 +80,7 @@
                 #!/bin/sh
                 touch /home/user/switch-to-desktop
                 steam -shutdown
+                pfkill -f gamescope
               '';
               executable = true;
             }
