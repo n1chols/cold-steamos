@@ -55,8 +55,8 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             export PATH=/run/wrappers/bin:$PATH
-            exec gamescope -f -e --rt --immediate-flips -- \
-            steam -tenfoot -steamos3 -pipewire-dmabuf \
+            exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- \
+            ${pkgs.steam}/bin/steam -tenfoot -steamos3 -pipewire-dmabuf \
             > /dev/null 2>&1
           '')
         ];
