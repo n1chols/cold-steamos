@@ -56,6 +56,7 @@
             if [ -f /tmp/switch-to-desktop ]; then
               rm /tmp/switch-to-desktop
               exec ${cfg.desktopSession}
+              sleep 5
             else
               exec ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
@@ -75,8 +76,7 @@
               text = ''
                 #!/bin/sh
                 touch /tmp/switch-to-desktop
-                #steam -shutdown
-                pkill -f gamescope
+                steam -shutdown
               '';
               executable = true;
             }
