@@ -54,7 +54,7 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             if [ -f /tmp/switch-to-desktop ]; then
-              rm /tmp/switch-to-desktop
+              #rm /tmp/switch-to-desktop
               #exec ${cfg.desktopSession}
               exec sleep 100
             else
