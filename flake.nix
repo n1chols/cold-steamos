@@ -64,7 +64,7 @@
                   bubblewrap = "${config.security.wrapperDir}/..";
                   extraBwrapArgs = [ "--bind /tmp /tmp" ];
                 };
-              };)}/bin/steam \
+              })}/bin/steam \
               -tenfoot -steamos3 -pipewire-dmabuf \
               > /dev/null 2>&1
             fi
