@@ -63,7 +63,7 @@
                 "--steam"
                 "--rt"
                 "--immediate-flips"
-              ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" ]
+              ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                 ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
               ${(pkgs.steam.override {
                 buildFHSEnv = pkgs.buildFHSEnv.override {
