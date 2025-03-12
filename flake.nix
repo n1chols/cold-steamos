@@ -42,7 +42,9 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             export PATH=/run/wrappers/bin:$PATH
-            exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- ${pkgs.steam}/bin/steam -tenfoot -steamos3 > /dev/null 2>&1
+            exec gamescope -f -e --rt --immediate-flips -- \
+            steam -tenfoot -steamos3 -pipewire-dmabuf \
+            > /dev/null 2>&1
           '')
         ];
         systemd.tmpfiles.rules = [
