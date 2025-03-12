@@ -53,7 +53,7 @@
           (self: super: {
             steam = super.steam.override {
               buildFHSEnv = super.buildFHSEnv.override {
-                bubblewrap = "${config.security.wrapperDir}/bin/bwrap";
+                bubblewrap = "${config.security.wrapperDir}/bin/..";
               };
             };
           })
