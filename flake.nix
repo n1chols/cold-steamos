@@ -58,15 +58,18 @@
           })
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
-            exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- \
-            ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam -tenfoot -steamos3 -pipewire-dmabuf
+            exec ${config.security.wrapperDir}/gamescope \
+            --fullscreen --steam --rt --immediate-flips -- \
+            ${(pkgs.steam.override { buildFHSEnv = pkgs.buildFHSEnv.override { bubblewrap = "${config.security.wrapperDir}/.."; }; })}/bin/steam \
+            -tenfoot -steamos3 -pipewire-dmabuf \
+            2> /home/${cfg.user}/sstest.log
           '')
         ];
 
         # Symlink steamos-session-select to the user's home
         systemd.tmpfiles.rules = [
-          "d /home/${cfg.user}/.local/state 0755 ${cfg.user} users -"
-          "L+ /home/${cfg.user}/.local/state/steamos-session-select - - - - ${
+          "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+          "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
             pkgs.writeTextFile {
               name = "steamos-session-select";
               text = ''
