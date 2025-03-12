@@ -79,7 +79,7 @@
               text = ''
                 #!/bin/sh
                 touch /home/user/switch-to-desktop
-                pkill -f gamescope
+                steam -shutdown
               '';
               executable = true;
             }
