@@ -54,8 +54,8 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             if [ -f /tmp/switch-to-desktop ]; then
-              rm /tmp/switch-to-desktop
               ${cfg.desktopSession}
+              rm /tmp/switch-to-desktop
             else
               exec ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
