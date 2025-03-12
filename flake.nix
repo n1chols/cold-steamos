@@ -75,7 +75,7 @@
               text = ''
                 #!/bin/sh
                 touch /tmp/switch-to-desktop
-                steam -shutdown
+                #steam -shutdown
                 pkill -f gamescope
               '';
               executable = true;
