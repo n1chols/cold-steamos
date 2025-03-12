@@ -41,7 +41,8 @@
           pkgs.steam
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
-            exec ${config.security.wrapperDir}/gamescope -f -e -- ${pkgs.steam}/bin/steam -tenfoot -steamos3 > /dev/null 2>&1
+            export PATH=/run/wrappers/bin:$PATH
+            exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- ${pkgs.steam}/bin/steam -tenfoot -steamos3 > /dev/null 2>&1
           '')
         ];
         systemd.tmpfiles.rules = [
