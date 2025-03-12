@@ -54,7 +54,7 @@
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             if [ -f /tmp/switch-to-desktop ]; then
-              rm /tmp/switch-to-desktop
+              rm /home/user/switch-to-desktop
               exec ${cfg.desktopSession}
             else
               exec ${config.security.wrapperDir}/gamescope \
@@ -74,7 +74,7 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
-                touch /tmp/switch-to-desktop
+                touch /home/user/switch-to-desktop
                 steam -shutdown
               '';
               executable = true;
