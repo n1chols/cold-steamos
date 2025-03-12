@@ -53,8 +53,9 @@
           pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
-            if [ -f /tmp/switch-to-desktop ]; then
-              ${cfg.desktopSession} && rm /tmp/switch-to-desktop
+            if [ -r /tmp/switch-to-desktop ]; then
+              rm /tmp/switch-to-desktop
+              ${cfg.desktopSession}
             else
               ${config.security.wrapperDir}/gamescope \
               --fullscreen --steam --rt --immediate-flips -- \
@@ -73,9 +74,8 @@
               name = "steamos-session-select";
               text = ''
                 #!/bin/sh
-                > /tmp/switch-to-desktop
+                touch /tmp/switch-to-desktop
                 steam -shutdown
-                pkill -f gamescope
               '';
               executable = true;
             }
