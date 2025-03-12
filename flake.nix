@@ -79,6 +79,11 @@
           }"
         ];
 
+        # Add ~/.local/bin to user's path
+        environment.sessionVariables = {
+          PATH = [ "/home/${cfg.user}/.local/bin" ];
+        };
+
         # Launch steam-session on startup
         services.greetd = {
           enable = true;
