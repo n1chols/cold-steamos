@@ -65,8 +65,8 @@
 
         # Symlink steamos-session-select to the user's home
         systemd.tmpfiles.rules = [
-          "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} ${cfg.user} -"
-          "L /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
+          "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+          "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
             pkgs.writeTextFile {
               name = "steamos-session-select";
               text = ''
