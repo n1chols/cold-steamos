@@ -48,7 +48,7 @@
           };
         };
 
-        # Install gamescope, steam with bwrap override, and steam-session script
+        # Install gamescope and steam-session script
         environment.systemPackages = [
           pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
@@ -76,7 +76,7 @@
           '')
         ];
 
-        # Symlink steamos-session-select to the user's home
+        # Symlink steamos-session-select to ~/.local/bin
         systemd.tmpfiles.rules = [
           "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
           "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
