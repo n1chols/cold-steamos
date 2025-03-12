@@ -37,12 +37,12 @@
           };
         };
         environment.systemPackages = [
+          pkgs.steam
+          pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             exec ${config.security.wrapperDir}/gamescope -f -e -- ${pkgs.steam}/bin/steam -tenfoot -steamos3 > /dev/null 2>&1
           '')
-          pkgs.steam
-          pkgs.gamescope
         ];
         systemd.tmpfiles.rules = [
           "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} ${cfg.user} -"
