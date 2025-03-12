@@ -48,21 +48,14 @@
           };
         };
 
-        # Make steam use the wrapped bubblewrap
-        nixpkgs.overlays = [
-          (self: super: {
-            steam = super.steam.override {
-              buildFHSEnv = super.buildFHSEnv.override {
-                bubblewrap = "${config.security.wrapperDir}/bin/..";
-              };
-            };
-          })
-        ];
-
-        # Define packages and steam-session script
+        # Install gamescope, steam with bwrap override, and steam-session script
         environment.systemPackages = [
           pkgs.gamescope
-          pkgs.steam
+          (pkgs.steam.override {
+            buildFHSEnv = pkgs.buildFHSEnv.override {
+              bubblewrap = "${config.security.wrapperDir}/..";
+            };
+          })
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             exec ${config.security.wrapperDir}/gamescope -f -e --rt --immediate-flips -- \
