@@ -1,5 +1,6 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
       cfg = config.steam-console;
@@ -21,7 +22,9 @@
           default = "steam-session";
         };
       };
+
       config = lib.mkIf cfg.enable {
+        # Add capabilities for gamescope realtime and setuid for bubblewrap
         security.wrappers = {
           gamescope = {
             owner = "root";
@@ -36,6 +39,8 @@
             setuid = true;
           };
         };
+
+        # Define packages and steam-session script
         environment.systemPackages = [
           pkgs.gamescope
           pkgs.steam
@@ -47,6 +52,8 @@
             > /dev/null 2>&1
           '')
         ];
+
+        # Symlink steamos-session-select to the user's home
         systemd.tmpfiles.rules = [
           "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} ${cfg.user} -"
           "L /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
@@ -61,6 +68,8 @@
             }
           }"
         ];
+
+        # Launch steam-session on startup
         services.greetd = {
           enable = true;
           settings = {
