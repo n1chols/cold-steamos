@@ -81,7 +81,7 @@
   
           systemd.tmpfiles.rules = [
             # Ensure ~/.local/bin exists and can be accessed
-            #"d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+            "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
             # Create steamos-session-select and symlink to ~/.local/bin
             "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
               pkgs.writeTextFile {
