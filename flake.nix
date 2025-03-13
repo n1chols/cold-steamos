@@ -49,7 +49,7 @@
           };
         };
 
-        # Install steam-session script and use wrappers
+        # Install steam-session script with wrappers
         environment.systemPackages = [
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
