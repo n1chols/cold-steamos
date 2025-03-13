@@ -135,7 +135,7 @@
               chown -R "decky:" "/home/${cfg.user}/.decky"
             '';
             serviceConfig = {
-              ExecStart = "${pkgs.decky-loader}/bin/decky-loader";
+              ExecStart = "${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader";
               KillMode = "process";
               TimeoutStopSec = 45;
             };
