@@ -54,8 +54,8 @@
           environment.systemPackages = [
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
-              if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
-                rm $XDG_RUNTIME_DIR/switch-to-desktop
+              if [ -r /tmp/switch-to-desktop ]; then
+                rm /tmp/switch-to-desktop
                 ${cfg.desktopSession}
               else
                 ${config.security.wrapperDir}/gamescope \
@@ -70,6 +70,7 @@
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
+                  extraArgs.extraBwrapArgs = (args.extraBwrapArgs or [ ]) ++ [ "--bind /tmp /tmp" ];
                 })}/bin/steam \
                 -steamdeck -pipewire-dmabuf \
                 > /dev/null 2>&1
@@ -81,12 +82,34 @@
             # Ensure ~/.local/bin exists and can be accessed
             #"d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
             # Create steamos-session-select and symlink to ~/.local/bin
+            "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
+              pkgs.writeTextFile {
+                name = "steamos-session-select1";
+                text = ''
+                  #!/bin/sh
+                  touch /tmp/switch-to-desktop
+                  steam -shutdown
+                '';
+                executable = true;
+              }
+            }"
+            "L+ /usr/bin/steamos-session-select - - - - ${
+              pkgs.writeTextFile {
+                name = "steamos-session-select2";
+                text = ''
+                  #!/bin/sh
+                  touch /tmp/switch-to-desktop
+                  steam -shutdown
+                '';
+                executable = true;
+              }
+            }"
             "L+ /usr/bin/startplasma-steamos-oneshot - - - - ${
               pkgs.writeTextFile {
                 name = "startplasma-steamos-oneshot";
                 text = ''
                   #!/bin/sh
-                  touch $XDG_RUNTIME_DIR/switch-to-desktop
+                  touch /tmp/switch-to-desktop
                   steam -shutdown
                 '';
                 executable = true;
@@ -96,7 +119,7 @@
   
           # Add ~/.local/bin to user's path
           environment.sessionVariables = {
-            PATH = [ "/usr/bin" ];
+            PATH = [ "/usr/bin" "/home/${cfg.user}/.local/bin" ];
           };
 
           # Add udev rule necessary for gamepad emulation
