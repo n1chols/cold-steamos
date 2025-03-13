@@ -6,11 +6,9 @@
 , coreutils
 , psmisc
 }:
-
 python3.pkgs.buildPythonPackage rec {
   pname = "decky-loader";
   version = "3.1.3";
-  format = "pyproject";
 
   src = fetchFromGitHub {
     owner = "SteamDeckHomebrew";
@@ -25,17 +23,26 @@ python3.pkgs.buildPythonPackage rec {
     hash = "sha256-WzYbqcniww6jpLu1PIJ3En/FPZSqOZuK6fcwN1mxuNQ=";
   };
 
-  pythonRelaxDeps = [ "watchdog" ];
+  pyproject = true;
 
   pnpmRoot = "frontend";
 
-  # Frontend build dependencies
-  nativeBuildInputs = [ nodejs pnpm_9.configHook ];
+  nativeBuildInputs = [
+    nodejs
+    pnpm_9.configHook
+  ];
 
-  # Python build system
-  build-system = with python3.pkgs; [ poetry-core poetry-dynamic-versioning ];
+  preBuild = ''
+    cd frontend
+    pnpm build
+    cd ../backend
+  '';
 
-  # Runtime dependencies
+  build-system = with python3.pkgs; [ 
+    poetry-core
+    poetry-dynamic-versioning
+  ];
+
   dependencies = with python3.pkgs; [
     aiohttp
     aiohttp-cors
@@ -47,14 +54,18 @@ python3.pkgs.buildPythonPackage rec {
     watchdog
   ];
 
-  # Build frontend before backend
-  preBuild = ''
-    cd frontend
-    pnpm install --frozen-lockfile
-    pnpm build
-    cd ../backend
-  '';
+  makeWrapperArgs = [
+    "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}"
+  ];
 
-  # Add utilities to PATH for scripts
-  makeWrapperArgs = [ "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}" ];
+  pythonRelaxDeps = [ "watchdog" ];
+
+  passthru.python = python3;
+
+  meta = with lib; {
+    description = "A plugin loader for the Steam Deck";
+    homepage = "https://github.com/SteamDeckHomebrew/decky-loader";
+    platforms = platforms.linux;
+    license = licenses.gpl2Only;
+  };
 }
