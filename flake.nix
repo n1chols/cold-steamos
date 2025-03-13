@@ -98,6 +98,18 @@
           environment.sessionVariables = {
             PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
+
+          # Test if this fixes controller
+          services.udev.extraRules = ''
+            # This rule is necessary for gamepad emulation.
+            KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
+    
+            # This rule is needed for basic functionality of the controller in Steam and keyboard/mouse emulation
+            SUBSYSTEM=="usb", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
+    
+            # Valve HID devices over USB hidraw
+            KERNEL=="hidraw*", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
+          '';
   
           # Make steam-session the default session
           services.greetd = {
