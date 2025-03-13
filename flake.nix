@@ -96,7 +96,7 @@
   
           # Add ~/.local/bin to user's path
           environment.sessionVariables = {
-            PATH = [ "/home/${cfg.user}/.local/bin" ];
+            PATH = [ "/usr/bin" ];
           };
 
           # Add udev rule necessary for gamepad emulation
