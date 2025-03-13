@@ -25,6 +25,10 @@ python3.pkgs.buildPythonPackage rec {
     hash = "sha256-WzYbqcniww6jpLu1PIJ3En/FPZSqOZuK6fcwN1mxuNQ=";
   };
 
+  pyproject = true;
+
+  pnpmRoot = "frontend";
+
   # Frontend build dependencies
   nativeBuildInputs = [ nodejs pnpm_9.configHook ];
 
