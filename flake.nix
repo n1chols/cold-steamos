@@ -57,7 +57,6 @@
               rm /home/user/switch-to-desktop
               ${cfg.desktopSession}
             else
-              # Use capability wrapper for gamescope
               ${config.security.wrapperDir}/gamescope \
               ${lib.concatStringsSep " " ([
                 "--fullscreen"
