@@ -109,9 +109,36 @@
           };
         };
 
-        # Optionally install decky-loader service
         lib.mkIf cfg.enableDecky {
-          
+          # Create decky user and group
+          users = {
+            users.decky = {
+              group = "decky";
+              home = "${cfg.user}/.decky";
+              isSystemUser = true;
+            };
+            groups.decky = {};
+          };
+
+          # Create decky-loader service
+          systemd.services.decky-loader = {
+            wantedBy = [ "multi-user.target" ];
+            after = [ "network.target" ];
+            environment = {
+              UNPRIVILEGED_USER = cfg.user;
+              UNPRIVILEGED_PATH = "${cfg.user}/.decky";
+              PLUGIN_PATH = "${cfg.user}/.decky/plugins";
+            };
+            preStart = ''
+              mkdir -p "${cfg.user}/.decky"
+              chown -R "decky:" "${cfg.user}/.decky"
+            '';
+            serviceConfig = {
+              ExecStart = "${pkgs.decky-loader}/bin/decky-loader;
+              KillMode = "process";
+              TimeoutStopSec = 45;
+            };
+          };
         };
       };
     };
