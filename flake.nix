@@ -111,16 +111,17 @@
           };
         }
         (lib.mkIf cfg.enableDecky {
-          # Enable steam CEF debugging
           system.tmpfiles.rules = [
+            # Enable steam CEF debugging
             "F /home/${cfg.usr}/.steam/steam/.cef-enable-remote-debugging 0644 ${cfg.usr} users -"
+            # Set ownership of /var/lib/decky
+            "d /var/lib/decky 0755 decky decky -"
           ];
 
           # Create decky user and group
           users = {
             users.decky = {
               group = "decky";
-              home = "/home/${cfg.user}/.decky";
               isSystemUser = true;
             };
             groups.decky = {};
@@ -133,13 +134,9 @@
             path = [ pkgs.python3 ];
             environment = {
               UNPRIVILEGED_USER = "decky";
-              UNPRIVILEGED_PATH = "/home/${cfg.user}/.decky";
+              UNPRIVILEGED_PATH = "/var/lib/decky ";
               PLUGIN_PATH = "$UNPRIVILEGED_PATH/plugins";
             };
-            preStart = ''
-              mkdir -p "$UNPRIVILEGED_PATH"
-              chown -R "decky:decky" "$UNPRIVILEGED_PATH"
-            '';
             serviceConfig = {
               ExecStart = "${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader";
               KillMode = "process";
