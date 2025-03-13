@@ -31,85 +31,86 @@
         };
       };
 
-      config = lib.mkIf cfg.enable {
-        security.wrappers = {
-          # Add gamescope wrapper with renicing (realtime) support
-          gamescope = {
-            owner = "root";
-            group = "root";
-            source = "${pkgs.gamescope}/bin/gamescope";
-            capabilities = "cap_sys_nice+eip";
-          };
-          # Add bubblewrap wrapper with setuid
-          bwrap = {
-            owner = "root";
-            group = "root";
-            source = "${pkgs.bubblewrap}/bin/bwrap";
-            setuid = true;
-          };
-        };
-
-        # Install steam-session script with wrappers
-        environment.systemPackages = [
-          (pkgs.writeShellScriptBin "steam-session" ''
-            #!/bin/sh
-            if [ -r /home/user/switch-to-desktop ]; then
-              rm /home/user/switch-to-desktop
-              ${cfg.desktopSession}
-            else
-              ${config.security.wrapperDir}/gamescope \
-              ${lib.concatStringsSep " " ([
-                "--fullscreen"
-                "--steam"
-                "--rt"
-                "--immediate-flips"
-              ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
-                ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-              ${(pkgs.steam.override {
-                buildFHSEnv = pkgs.buildFHSEnv.override {
-                  bubblewrap = "${config.security.wrapperDir}/..";
-                };
-              })}/bin/steam \
-              -tenfoot -steamos3 -pipewire-dmabuf \
-              > /dev/null 2>&1
-            fi
-          '')
-        ];
-
-        systemd.tmpfiles.rules = [
-          # Ensure ~/.local/bin exists and can be accessed
-          "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
-          # Create steamos-session-select and symlink to ~/.local/bin
-          "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
-            pkgs.writeTextFile {
-              name = "steamos-session-select";
-              text = ''
-                #!/bin/sh
-                touch /home/user/switch-to-desktop
-                steam -shutdown
-              '';
-              executable = true;
-            }
-          }"
-        ];
-
-        # Add ~/.local/bin to user's path
-        environment.sessionVariables = {
-          PATH = [ "/home/${cfg.user}/.local/bin" ];
-        };
-
-        # Make steam-session the default session
-        services.greetd = {
-          enable = true;
-          settings = {
-            default_session = {
-              user = cfg.user;
-              command = "steam-session";
+      config = lib.mkIf cfg.enable (lib.mkMerge [
+        {
+          security.wrappers = {
+            # Add gamescope wrapper with renicing (realtime) support
+            gamescope = {
+              owner = "root";
+              group = "root";
+              source = "${pkgs.gamescope}/bin/gamescope";
+              capabilities = "cap_sys_nice+eip";
+            };
+            # Add bubblewrap wrapper with setuid
+            bwrap = {
+              owner = "root";
+              group = "root";
+              source = "${pkgs.bubblewrap}/bin/bwrap";
+              setuid = true;
             };
           };
-        };
-
-        lib.mkIf cfg.enableDecky {
+  
+          # Install steam-session script with wrappers
+          environment.systemPackages = [
+            (pkgs.writeShellScriptBin "steam-session" ''
+              #!/bin/sh
+              if [ -r /home/user/switch-to-desktop ]; then
+                rm /home/user/switch-to-desktop
+                ${cfg.desktopSession}
+              else
+                ${config.security.wrapperDir}/gamescope \
+                ${lib.concatStringsSep " " ([
+                  "--fullscreen"
+                  "--steam"
+                  "--rt"
+                  "--immediate-flips"
+                ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
+                  ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
+                ${(pkgs.steam.override {
+                  buildFHSEnv = pkgs.buildFHSEnv.override {
+                    bubblewrap = "${config.security.wrapperDir}/..";
+                  };
+                })}/bin/steam \
+                -tenfoot -steamos3 -pipewire-dmabuf \
+                > /dev/null 2>&1
+              fi
+            '')
+          ];
+  
+          systemd.tmpfiles.rules = [
+            # Ensure ~/.local/bin exists and can be accessed
+            "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+            # Create steamos-session-select and symlink to ~/.local/bin
+            "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
+              pkgs.writeTextFile {
+                name = "steamos-session-select";
+                text = ''
+                  #!/bin/sh
+                  touch /home/user/switch-to-desktop
+                  steam -shutdown
+                '';
+                executable = true;
+              }
+            }"
+          ];
+  
+          # Add ~/.local/bin to user's path
+          environment.sessionVariables = {
+            PATH = [ "/home/${cfg.user}/.local/bin" ];
+          };
+  
+          # Make steam-session the default session
+          services.greetd = {
+            enable = true;
+            settings = {
+              default_session = {
+                user = cfg.user;
+                command = "steam-session";
+              };
+            };
+          };
+        }
+        (lib.mkIf cfg.enableDecky {
           # Create decky user and group
           users = {
             users.decky = {
@@ -134,13 +135,13 @@
               chown -R "decky:" "${cfg.user}/.decky"
             '';
             serviceConfig = {
-              ExecStart = "${pkgs.decky-loader}/bin/decky-loader;
+              ExecStart = "${pkgs.decky-loader}/bin/decky-loader";
               KillMode = "process";
               TimeoutStopSec = 45;
             };
           };
-        };
-      };
+        })
+      ]);
     };
   };
 }
