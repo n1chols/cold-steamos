@@ -113,7 +113,7 @@
         (lib.mkIf cfg.enableDecky {
           systemd.tmpfiles.rules = [
             # Enable CEF remote debugging
-            "f /home/${cfg.user}/.steam/steam/.cef-enable-remote-debugging 0644 root root -"
+            "f /home/${cfg.user}/.local/share/Steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
             # Set ownership of /var/lib/decky
             "d /var/lib/decky 0755 decky decky -"
           ];
