@@ -54,6 +54,14 @@
           environment.systemPackages = [
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
+              if [ "${cfg.enableDecky}" = true ]; then
+                export UNPRIVILEGED_USER=${cfg.user}
+                export UNPRIVILEGED_PATH=/home/$UNPRIVILEGED_USER/.decky
+                export PLUGIN_PATH=$UNPRIVILEGED_PATH/plugins
+                mkdir -p $UNPRIVILEGED_PATH
+                chown -R ${cfg.user}: $UNPRIVILEGED_PATH
+                ${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader &
+              fi
               if [ -r /home/user/switch-to-desktop ]; then
                 rm /home/user/switch-to-desktop
                 ${cfg.desktopSession}
@@ -110,37 +118,6 @@
             };
           };
         }
-        (lib.mkIf cfg.enableDecky {
-          # Create decky user and group
-          users = {
-            users.decky = {
-              group = "decky";
-              home = "/home/${cfg.user}/.decky";
-              isSystemUser = true;
-            };
-            groups.decky = {};
-          };
-
-          # Create decky-loader service
-          systemd.services.decky-loader = {
-            wantedBy = [ "multi-user.target" ];
-            after = [ "network.target" ];
-            environment = {
-              UNPRIVILEGED_USER = "decky";
-              UNPRIVILEGED_PATH = "/home/${cfg.user}/.decky";
-              PLUGIN_PATH = "/home/${cfg.user}/.decky/plugins";
-            };
-            preStart = ''
-              mkdir -p "/home/${cfg.user}/.decky"
-              chown -R "decky:" "/home/${cfg.user}/.decky"
-            '';
-            serviceConfig = {
-              ExecStart = "${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader";
-              KillMode = "process";
-              TimeoutStopSec = 45;
-            };
-          };
-        })
       ]);
     };
   };
