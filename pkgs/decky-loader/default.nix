@@ -8,7 +8,7 @@
 }:
 
 python3.pkgs.buildPythonPackage rec {
-  # Package Identification
+  # Package info
   pname = "decky-loader";
   version = "3.1.3";
 
