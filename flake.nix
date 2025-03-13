@@ -32,14 +32,15 @@
       };
 
       config = lib.mkIf cfg.enable {
-        # Add capabilities for gamescope realtime and setuid for bubblewrap
         security.wrappers = {
+          # Add gamescope wrapper with renicing (realtime) support
           gamescope = {
             owner = "root";
             group = "root";
             source = "${pkgs.gamescope}/bin/gamescope";
             capabilities = "cap_sys_nice+eip";
           };
+          # Add bubblewrap wrapper with setuid
           bwrap = {
             owner = "root";
             group = "root";
@@ -48,15 +49,15 @@
           };
         };
 
-        # Install gamescope and steam-session script
+        # Install steam-session script and use wrappers
         environment.systemPackages = [
-          pkgs.gamescope
           (pkgs.writeShellScriptBin "steam-session" ''
             #!/bin/sh
             if [ -r /home/user/switch-to-desktop ]; then
               rm /home/user/switch-to-desktop
               ${cfg.desktopSession}
             else
+              # Use capability wrapper for gamescope
               ${config.security.wrapperDir}/gamescope \
               ${lib.concatStringsSep " " ([
                 "--fullscreen"
@@ -76,9 +77,10 @@
           '')
         ];
 
-        # Symlink steamos-session-select to ~/.local/bin
         systemd.tmpfiles.rules = [
+          # Ensure ~/.local/bin exists and can be accessed
           "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+          # Create steamos-session-select and symlink to ~/.local/bin
           "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
             pkgs.writeTextFile {
               name = "steamos-session-select";
@@ -97,7 +99,7 @@
           PATH = [ "/home/${cfg.user}/.local/bin" ];
         };
 
-        # Launch steam-session on startup
+        # Make steam-session the default session
         services.greetd = {
           enable = true;
           settings = {
@@ -106,6 +108,11 @@
               command = "steam-session";
             };
           };
+        };
+
+        # Optionally install decky-loader service
+        lib.mkIf cfg.enableDecky {
+          
         };
       };
     };
