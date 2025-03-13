@@ -125,6 +125,7 @@
           systemd.services.decky-loader = {
             wantedBy = [ "multi-user.target" ];
             after = [ "network.target" ];
+            path = [ pkgs.python3 ];
             environment = {
               UNPRIVILEGED_USER = "decky";
               UNPRIVILEGED_PATH = "/home/${cfg.user}/.decky";
