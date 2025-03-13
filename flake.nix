@@ -85,29 +85,7 @@
             # Create steamos-session-select and symlink to ~/.local/bin
             "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
               pkgs.writeTextFile {
-                name = "steamos-session-select1";
-                text = ''
-                  #!/bin/sh
-                  touch /tmp/switch-to-desktop
-                  steam -shutdown
-                '';
-                executable = true;
-              }
-            }"
-            "L+ /usr/bin/steamos-session-select - - - - ${
-              pkgs.writeTextFile {
-                name = "steamos-session-select2";
-                text = ''
-                  #!/bin/sh
-                  touch /tmp/switch-to-desktop
-                  steam -shutdown
-                '';
-                executable = true;
-              }
-            }"
-            "L+ /usr/bin/startplasma-steamos-oneshot - - - - ${
-              pkgs.writeTextFile {
-                name = "startplasma-steamos-oneshot";
+                name = "steamos-session-select";
                 text = ''
                   #!/bin/sh
                   touch /tmp/switch-to-desktop
