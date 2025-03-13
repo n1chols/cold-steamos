@@ -98,13 +98,13 @@
   
           # Add ~/.local/bin to user's path
           environment.sessionVariables = {
-            PATH = [ "/usr/bin" "/home/${cfg.user}/.local/bin" ];
+            PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
 
           # Add udev rule necessary for gamepad emulation
-          services.udev.extraRules = ''
-            KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
-          '';
+          #services.udev.extraRules = ''
+          #  KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
+          #'';
   
           # Make steam-session the default session
           services.greetd = {
