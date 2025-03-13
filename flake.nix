@@ -115,7 +115,7 @@
           users = {
             users.decky = {
               group = "decky";
-              home = "${cfg.user}/.decky";
+              home = "/home/${cfg.user}/.decky";
               isSystemUser = true;
             };
             groups.decky = {};
@@ -127,12 +127,12 @@
             after = [ "network.target" ];
             environment = {
               UNPRIVILEGED_USER = cfg.user;
-              UNPRIVILEGED_PATH = "${cfg.user}/.decky";
-              PLUGIN_PATH = "${cfg.user}/.decky/plugins";
+              UNPRIVILEGED_PATH = "/home/${cfg.user}/.decky";
+              PLUGIN_PATH = "/home/${cfg.user}/.decky/plugins";
             };
             preStart = ''
-              mkdir -p "${cfg.user}/.decky"
-              chown -R "decky:" "${cfg.user}/.decky"
+              mkdir -p "/home/${cfg.user}/.decky"
+              chown -R "decky:" "/home/${cfg.user}/.decky"
             '';
             serviceConfig = {
               ExecStart = "${pkgs.decky-loader}/bin/decky-loader";
