@@ -81,9 +81,9 @@
             # Ensure ~/.local/bin exists and can be accessed
             "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
             # Create steamos-session-select and symlink to ~/.local/bin
-            "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
+            "L+ /home/${cfg.user}/.local/bin/startplasma-steamos-oneshot - - - - ${
               pkgs.writeTextFile {
-                name = "steamos-session-select";
+                name = "startplasma-steamos-oneshot";
                 text = ''
                   #!/bin/sh
                   touch $XDG_RUNTIME_DIR/switch-to-desktop
