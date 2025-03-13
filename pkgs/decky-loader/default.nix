@@ -25,6 +25,8 @@ python3.pkgs.buildPythonPackage rec {
     hash = "sha256-WzYbqcniww6jpLu1PIJ3En/FPZSqOZuK6fcwN1mxuNQ=";
   };
 
+  pythonRelaxDeps = [ "watchdog" ];
+
   pnpmRoot = "frontend";
 
   # Frontend build dependencies
