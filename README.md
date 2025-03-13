@@ -26,7 +26,7 @@ A simple flake to turn any NixOS device into a SteamOS console. Inspired by [Jov
             enableHDR = true;
             enableVRR = true;
             enableDecky = true;
-            user = "user";
+            user = "your-user";
             desktopSession = "command-to-start-desktop";
           };
         })
