@@ -126,7 +126,7 @@
             wantedBy = [ "multi-user.target" ];
             after = [ "network.target" ];
             environment = {
-              UNPRIVILEGED_USER = cfg.user;
+              UNPRIVILEGED_USER = "decky";
               UNPRIVILEGED_PATH = "/home/${cfg.user}/.decky";
               PLUGIN_PATH = "/home/${cfg.user}/.decky/plugins";
             };
