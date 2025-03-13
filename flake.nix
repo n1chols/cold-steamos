@@ -113,7 +113,7 @@
         (lib.mkIf cfg.enableDecky {
           systemd.tmpfiles.rules = [
             # Enable steam CEF debugging
-            "F /home/${cfg.user}/.steam/steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
+            "f /home/${cfg.user}/.steam/steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
             # Set ownership of /var/lib/decky
             "d /var/lib/decky 0755 decky decky -"
           ];
@@ -134,7 +134,7 @@
             path = [ pkgs.python3 ];
             environment = {
               UNPRIVILEGED_USER = "decky";
-              UNPRIVILEGED_PATH = "/var/lib/decky ";
+              UNPRIVILEGED_PATH = "/var/lib/decky";
               PLUGIN_PATH = "$UNPRIVILEGED_PATH/plugins";
             };
             serviceConfig = {
