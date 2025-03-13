@@ -31,7 +31,7 @@ python3.pkgs.buildPythonPackage rec {
   nativeBuildInputs = [ nodejs pnpm_9.configHook ];
 
   # Python build system
-  build-system = with python3.pkgs; [ poetry-core ];
+  build-system = with python3.pkgs; [ poetry-core poetry-dynamic-versioning ];
 
   # Runtime dependencies
   dependencies = with python3.pkgs; [
