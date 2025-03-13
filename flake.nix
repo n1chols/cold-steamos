@@ -73,7 +73,7 @@
                 }).overrideAttrs (old: {
                   extraBwrapArgs = (old.extraBwrapArgs or []) ++ [ "--bind /tmp /tmp" ];
                 })}/bin/steam \
-                -steamdeck -pipewire-dmabuf \
+                -tenfoot -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
             '')
