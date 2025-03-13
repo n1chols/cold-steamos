@@ -70,7 +70,7 @@
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
-                  extraArgs // {
+                  extraArgs = {
                     extraBwrapArgs = [ "--bind /tmp /tmp" ];
                   };
                 })}/bin/steam \
