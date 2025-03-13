@@ -99,16 +99,9 @@
             PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
 
-          # Test if this fixes controller
+          # Add udev rule necessary for gamepad emulation
           services.udev.extraRules = ''
-            # This rule is necessary for gamepad emulation.
-            #KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
-    
-            # This rule is needed for basic functionality of the controller in Steam and keyboard/mouse emulation
-            #SUBSYSTEM=="usb", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
-    
-            # Valve HID devices over USB hidraw
-            #KERNEL=="hidraw*", ATTRS{idVendor}=="28de", MODE="0660", TAG+="uaccess"
+            KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
           '';
   
           # Make steam-session the default session
@@ -123,13 +116,6 @@
           };
         }
         (lib.mkIf cfg.enableDecky {
-          systemd.tmpfiles.rules = [
-            # Enable CEF remote debugging
-            "f /home/${cfg.user}/.local/share/Steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
-            # Set ownership of /var/lib/decky
-            "d /var/lib/decky 0755 decky decky -"
-          ];
-
           # Create decky user and group
           users = {
             users.decky = {
@@ -138,6 +124,13 @@
             };
             groups.decky = {};
           };
+
+          systemd.tmpfiles.rules = [
+            # Enable CEF remote debugging
+            "f /home/${cfg.user}/.local/share/Steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
+            # Set ownership of /var/lib/decky
+            "d /var/lib/decky 0755 decky decky -"
+          ];
 
           # Create decky-loader service
           systemd.services.decky-loader = {
