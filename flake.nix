@@ -70,7 +70,7 @@
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
-                  extraArgs.extraBwrapArgs = (args.extraBwrapArgs or [ ]) ++ [ "--bind /tmp /tmp" ];
+                  extraArgs.extraBwrapArgs = [ "--bind /tmp /tmp" ];
                 })}/bin/steam \
                 -steamdeck -pipewire-dmabuf \
                 > /dev/null 2>&1
