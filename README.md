@@ -1,10 +1,10 @@
 ## nixos-steam-console
-A simple flake to turn any NixOS device into a SteamOS console. Inspired by Jovian-NixOS.
+A simple flake to turn any NixOS device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ### Features
 - Gamescope realtime capabilty by default
 - Configurable 'Switch to Desktop' session
-- Decky Loader
+- [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader) with no manual setup
 
 ### Usage
 ```nixos
