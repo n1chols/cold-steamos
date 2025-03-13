@@ -87,6 +87,7 @@
                 text = ''
                   #!/bin/sh
                   touch $XDG_RUNTIME_DIR/switch-to-desktop
+                  pfkill -f gamescope
                   steam -shutdown
                 '';
                 executable = true;
