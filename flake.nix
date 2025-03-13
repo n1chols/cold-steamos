@@ -112,8 +112,8 @@
         }
         (lib.mkIf cfg.enableDecky {
           systemd.tmpfiles.rules = [
-            # Enable steam CEF debugging
-            "f /home/${cfg.user}/.steam/steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
+            # Enable CEF remote debugging
+            "f /home/${cfg.user}/.steam/steam/.cef-enable-remote-debugging 0644 decky decky -"
             # Set ownership of /var/lib/decky
             "d /var/lib/decky 0755 decky decky -"
           ];
@@ -131,7 +131,6 @@
           systemd.services.decky-loader = {
             wantedBy = [ "multi-user.target" ];
             after = [ "network.target" ];
-            path = [ pkgs.python3 ];
             environment = {
               UNPRIVILEGED_USER = "decky";
               UNPRIVILEGED_PATH = "/var/lib/decky";
@@ -140,7 +139,7 @@
             serviceConfig = {
               ExecStart = "${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader";
               KillMode = "process";
-              TimeoutStopSec = 45;
+              TimeoutStopSec = 15;
             };
           };
         })
