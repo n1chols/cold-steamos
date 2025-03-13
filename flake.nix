@@ -111,6 +111,11 @@
           };
         }
         (lib.mkIf cfg.enableDecky {
+          # Enable steam CEF debugging
+          system.tmpfiles.rules = [
+            "F /home/${cfg.usr}/.steam/steam/.cef-enable-remote-debugging 0644 ${cfg.usr} users -"
+          ];
+
           # Create decky user and group
           users = {
             users.decky = {
