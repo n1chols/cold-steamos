@@ -79,15 +79,14 @@
   
           systemd.tmpfiles.rules = [
             # Ensure ~/.local/bin exists and can be accessed
-            "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
+            #"d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
             # Create steamos-session-select and symlink to ~/.local/bin
-            "L+ /home/${cfg.user}/.local/bin/startplasma-steamos-oneshot - - - - ${
+            "L+ /usr/bin/startplasma-steamos-oneshot - - - - ${
               pkgs.writeTextFile {
                 name = "startplasma-steamos-oneshot";
                 text = ''
                   #!/bin/sh
                   touch $XDG_RUNTIME_DIR/switch-to-desktop
-                  pfkill -f gamescope
                   steam -shutdown
                 '';
                 executable = true;
