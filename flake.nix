@@ -110,7 +110,7 @@
             };
           };
         }
-        (lib.mkIf cfg.enableDecky = {
+        (lib.mkIf cfg.enableDecky {
           # Create decky user and group
           users = {
             users.decky = {
