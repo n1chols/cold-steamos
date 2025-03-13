@@ -54,8 +54,8 @@
           environment.systemPackages = [
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
-              if [ -r /home/user/switch-to-desktop ]; then
-                rm /home/user/switch-to-desktop
+              if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
+                rm $XDG_RUNTIME_DIR/switch-to-desktop
                 ${cfg.desktopSession}
               else
                 ${config.security.wrapperDir}/gamescope \
@@ -86,7 +86,7 @@
                 name = "steamos-session-select";
                 text = ''
                   #!/bin/sh
-                  touch /home/user/switch-to-desktop
+                  touch $XDG_RUNTIME_DIR/switch-to-desktop
                   steam -shutdown
                 '';
                 executable = true;
@@ -139,7 +139,7 @@
             environment = {
               UNPRIVILEGED_USER = "decky";
               UNPRIVILEGED_PATH = "/var/lib/decky";
-              PLUGIN_PATH = "$UNPRIVILEGED_PATH/plugins";
+              PLUGIN_PATH = "/var/lib/decky/plugins";
             };
             serviceConfig = {
               ExecStart = "${pkgs.callPackage ./pkgs/decky-loader {}}/bin/decky-loader";
