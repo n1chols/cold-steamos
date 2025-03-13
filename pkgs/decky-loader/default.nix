@@ -19,6 +19,12 @@ python3.pkgs.buildPythonPackage rec {
     hash = "sha256-wJCSjuZJTYtFVtvVHhfvrxQAUcaI/GT93E2Lcok5Yvk=";
   };
 
+  pnpmDeps = pnpm_9.fetchDeps {
+    inherit pname version src;
+    sourceRoot = "${src.name}/frontend";
+    hash = "sha256-WzYbqcniww6jpLu1PIJ3En/FPZSqOZuK6fcwN1mxuNQ=";
+  };
+
   # Frontend build dependencies
   nativeBuildInputs = [ nodejs pnpm_9.configHook ];
 
