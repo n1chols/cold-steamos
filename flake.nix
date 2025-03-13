@@ -54,8 +54,8 @@
           environment.systemPackages = [
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
-              if [ -r /tmp/switch-to-desktop ]; then
-                rm /tmp/switch-to-desktop
+              if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
+                rm $XDG_RUNTIME_DIR/switch-to-desktop
                 ${cfg.desktopSession}
               else
                 ${config.security.wrapperDir}/gamescope \
@@ -70,10 +70,8 @@
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
-                }).overrideAttrs (old: {
-                  extraBwrapArgs = (old.extraBwrapArgs or []) ++ [ "--bind /tmp /tmp" ];
                 })}/bin/steam \
-                -tenfoot -steamos3 -pipewire-dmabuf \
+                -tenfoot -steamos3 -pipewire-dmabuf -skipinitialbootstrap \
                 > /dev/null 2>&1
               fi
             '')
@@ -88,7 +86,7 @@
                 name = "steamos-session-select";
                 text = ''
                   #!/bin/sh
-                  touch /tmp/switch-to-desktop
+                  touch $XDG_RUNTIME_DIR/switch-to-desktop
                   steam -shutdown
                 '';
                 executable = true;
