@@ -7,7 +7,7 @@ A simple flake to turn any NixOS device into a SteamOS console. Inspired by Jovi
 - Decky Loader
 
 ### Usage
-```
+```nixos
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
