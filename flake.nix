@@ -99,7 +99,7 @@
             PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
 
-          # Add udev rule for gamepad emulation
+          # Add udev rule needed for gamepad emulation
           services.udev.extraRules = ''
             KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
           '';
