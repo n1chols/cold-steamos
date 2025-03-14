@@ -3,6 +3,7 @@ A simple flake to turn any NixOS device into a SteamOS console. Inspired by [Jov
 
 ## Features
 - Gamescope realtime capabilty by default
+- Ability to enable HDR/VRR
 - Configurable 'Switch to Desktop' session
 - [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader) with no manual setup
 
