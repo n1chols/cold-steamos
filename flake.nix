@@ -94,12 +94,12 @@
             }"
           ];
   
-          # Add ~/.local/bin to user's path
+          # Add ~/.local/bin to path
           environment.sessionVariables = {
             PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
 
-          # Add necessary udev rule for gamepad emulation
+          # Add udev rule for gamepad emulation
           services.udev.extraRules = ''
             KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
           '';
