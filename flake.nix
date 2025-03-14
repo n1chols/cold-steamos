@@ -128,7 +128,7 @@
           systemd.tmpfiles.rules = [
             # Enable CEF remote debugging
             "f /home/${cfg.user}/.local/share/Steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
-            # Set ownership of /var/lib/decky
+            # Ensure /var/lib/decky exists and can be accessed
             "d /var/lib/decky 0755 decky decky -"
           ];
 
