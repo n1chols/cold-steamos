@@ -12,6 +12,7 @@ A simple flake to turn any NixOS device into a SteamOS console. Inspired by [Jov
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Add input:
     steam-console.url = "github:n1chols/nixos-steam-console";
   };
 
@@ -20,8 +21,10 @@ A simple flake to turn any NixOS device into a SteamOS console. Inspired by [Jov
       system = "x86_64-linux";
       modules = [
         ...
+        # Import module:
         steam-console.nixosModules.default
         ({ ... }: {
+          # Configure options:
           steam-console = {
             enable = true;
             enableHDR = true;
