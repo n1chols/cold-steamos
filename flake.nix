@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
@@ -68,7 +68,7 @@
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
                   buildFHSEnv = pkgs.buildFHSEnv.override {
-                    bubblewrap = "${config.security.wrapperDir}/bwrap";
+                    bubblewrap = "${config.security.wrapperDir}/..";
                   };
                 })}/bin/steam \
                 -tenfoot -steamos3 -pipewire-dmabuf
