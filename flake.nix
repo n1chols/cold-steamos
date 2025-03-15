@@ -68,7 +68,7 @@
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
                   buildFHSEnv = pkgs.buildFHSEnv.override {
-                    bubblewrap = "${config.security.wrapperDir}/..";
+                    bubblewrap = "${config.security.wrapperDir}/bwrap";
                   };
                 })}/bin/steam \
                 -tenfoot -steamos3 -pipewire-dmabuf
