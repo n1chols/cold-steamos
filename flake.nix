@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
