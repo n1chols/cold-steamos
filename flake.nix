@@ -69,8 +69,6 @@
                 ${(pkgs.steam.override {
                   extraPkgs = p: with p; [
                     steam-run
-                    bumblebee
-                    glxinfo
                     mesa
                     libGL
                     vulkan-loader
