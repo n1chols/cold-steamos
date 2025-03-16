@@ -70,8 +70,8 @@
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
-                })}/bin/steam \
-                -tenfoot -steamos3 -pipewire-dmabuf
+                })}/bin/steam #\
+                #-tenfoot -steamos3 -pipewire-dmabuf
               fi
             '')
           ];
