@@ -49,15 +49,6 @@
               setuid = true;
             };
           };
-
-          # Enable steam with setuid bubblewrap package
-          programs.steam = {
-            enable = true;
-            remotePlay.openFirewall = true;
-            dedicatedServer.openFirewall = true;
-            localNetworkGameTransfers.openFirewall = true;
-            gamescopeSession.enable = true;
-          };
   
           # Install steam-session script with wrappers
           environment.systemPackages = [
@@ -75,7 +66,20 @@
                   "--immediate-flips"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                ${pkgs.steam}/bin/steam \
+                ${(pkgs.steam.override {
+                  extraPkgs = p: with p; [
+                    mesa
+                    libGL
+                    dejavu_fonts
+                    fontconfig
+                    freetype
+                  ] ++ lib.optionals p.stdenv.hostPlatform.is64bit [
+                    config.hardware.graphics.package
+                  ] ++ config.hardware.graphics.extraPackages;
+                  buildFHSEnv = pkgs.buildFHSEnv.override {
+                    bubblewrap = "${config.security.wrapperDir}/..";
+                  };
+                })}/bin/steam \
                 -tenfoot -steamos3 -pipewire-dmabuf
               fi
             '')
