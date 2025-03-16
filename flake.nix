@@ -67,6 +67,7 @@
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
+                  extraLibraries = pkgs: [ pkgs.xorg.libxcb ];
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
