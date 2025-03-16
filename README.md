@@ -1,4 +1,4 @@
-# nixos-steam-console
+# nixos-steam-console (WIP)
 A simple flake to turn any device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
@@ -6,6 +6,10 @@ A simple flake to turn any device into a SteamOS console. Inspired by [Jovian-Ni
 - HDR/VRR
 - [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader)
 - 'Switch to Desktop' session
+
+## Requirements
+- NetworkManager (`networking.networkmanager.enable = true`)
+- PipeWire (`services.pipewire.enable = true`)
 
 ## Usage
 ```nixos
