@@ -68,7 +68,9 @@
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
                   extraPkgs = p: with p; [
-                    steam-runtime
+                    steam-run
+                    bumblebee
+                    glxinfo
                     mesa
                     libGL
                     vulkan-loader
