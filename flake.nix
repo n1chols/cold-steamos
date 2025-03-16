@@ -56,9 +56,9 @@
               #!/bin/sh
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
                 rm $XDG_RUNTIME_DIR/switch-to-desktop
-                ${cfg.desktopSession}
+                exec ${cfg.desktopSession}
               else
-                ${config.security.wrapperDir}/gamescope \
+                exec ${config.security.wrapperDir}/gamescope \
                 ${lib.concatStringsSep " " ([
                   "--fullscreen"
                   "--steam"
@@ -101,7 +101,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=systemctl logout && loginctl terminate-session $XDG_SESSION_ID
+                  Exec=loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
               }
