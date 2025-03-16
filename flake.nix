@@ -67,22 +67,6 @@
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
-                  extraPkgs = p: with p; [
-                    steam-run
-                    mesa
-                    libGL
-                    vulkan-loader
-                    fontconfig
-                    freetype
-                    dejavu_fonts
-                    pkgs.pkgsi686Linux.mesa
-                    pkgs.pkgsi686Linux.libGL
-                    pkgs.pkgsi686Linux.vulkan-loader
-                    pkgs.pkgsi686Linux.fontconfig
-                    pkgs.pkgsi686Linux.freetype
-                  ] ++ lib.optionals p.stdenv.hostPlatform.is64bit [
-                    config.hardware.graphics.package
-                  ] ++ config.hardware.graphics.extraPackages;
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
