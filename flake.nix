@@ -71,7 +71,7 @@
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
                 })}/bin/steam \
-                -tenfoot -steamos3 -pipewire-dmabuf -skipinitialbootstrap \
+                -tenfoot -steamos3 -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
             '')
