@@ -100,9 +100,9 @@
           };
 
           # Add udev rule needed for gamepad emulation
-          services.udev.extraRules = ''
-            KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
-          '';
+          #services.udev.extraRules = ''
+          #  KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"
+          #'';
   
           # Make steam-session the default session
           services.greetd = {
