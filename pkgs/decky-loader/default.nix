@@ -40,14 +40,6 @@ python3.pkgs.buildPythonPackage rec {
   '';
 
   dependencies = with python3.pkgs; [
-    #(aiohttp.overrideAttrs (old: rec {
-    #  version = "3.10.11";
-    #  src = fetchPypi {
-    #    pname = "aiohttp";
-    #    inherit version;
-    #    hash = "sha256-...";
-    #  };
-    #}))
     aiohttp
     aiohttp-cors
     aiohttp-jinja2
