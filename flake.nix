@@ -106,7 +106,7 @@
                 executable = true;
               }
             }"
-            # Symlink gaming mode shortcut to Desktop directory
+            # Symlink 'Return to Gaming Mode' shortcut to desktop
             "L+ $XDG_DESKTOP_DIR/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
           ];
   
