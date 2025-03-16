@@ -63,15 +63,10 @@
                   "--fullscreen"
                   "--steam"
                   "--rt"
-                  "--immediate-flips"
+                  #"--immediate-flips"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
-                  extraPkgs = pkgs: builtins.filter pkgs.lib.isDerivation config.fonts.packages;
-                  extraLibraries = pkgs:
-                    if pkgs.stdenv.hostPlatform.is64bit
-                    then [ config.hardware.graphics.package ] ++ config.hardware.graphics.extraPackages
-                    else [ config.hardware.graphics.package32 ] ++ config.hardware.graphics.extraPackages32;
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
