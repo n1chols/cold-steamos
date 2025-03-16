@@ -92,20 +92,6 @@
                 executable = true;
               }
             }"
-            # Ensure ~/Desktop exists and can be accessed
-            "d /home/${cfg.user}/Desktop 0755 ${cfg.user} users -"
-            # Create 'Return to Gaming Mode' shortcut and symlink to ~/Desktop
-            "L+ /home/${cfg.user}/Desktop/return.desktop - - - - ${
-              pkgs.writeTextFile {
-                name = "return.desktop";
-                text = ''
-                  [Desktop Entry]
-                  Name=Return to Gaming Mode
-                  Exec=systemctl logout
-                  Type=Application
-                '';
-              }
-            }"
           ];
   
           # Add ~/.local/bin to path
