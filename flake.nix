@@ -56,11 +56,7 @@
             remotePlay.openFirewall = true;
             dedicatedServer.openFirewall = true;
             localNetworkGameTransfers.openFirewall = true;
-            package = pkgs.steam.override {
-              buildFHSEnv = pkgs.buildFHSEnv.override {
-                bubblewrap = "${config.security.wrapperDir}/..";
-              };
-            };
+            gamescopeSession.enable = true;
           };
   
           # Install steam-session script with wrappers
