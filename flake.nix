@@ -86,7 +86,7 @@
               #!/bin/sh
               touch $XDG_RUNTIME_DIR/switch-to-desktop
               steam -shutdown
-            ''
+            ''"
             # Ensure ~/.local/share/applications exists and can be accessed
             "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
             # Create 'Return to Gaming Mode' shortcut
@@ -95,7 +95,7 @@
               Name=Return to Gaming Mode
               Exec=loginctl terminate-session $XDG_SESSION_ID
               Type=Application
-            ''
+            ''"
             # Symlink 'Return to Gaming Mode' shortcut to desktop
             "L+ /home/${cfg.user}/Desktop/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
           ];
