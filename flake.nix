@@ -101,7 +101,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=loginctl kill-session --kill-who=all $XDG_SESSION_ID && loginctl terminate-session $XDG_SESSION_ID
+                  Exec=loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
               }
