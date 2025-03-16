@@ -96,14 +96,13 @@
             # Ensure ~/.local/share/applications exists and can be accessed
             "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
             # Create 'Return to Gaming Mode' shortcut and symlink to ~/.local/share/applications
-            # Create steamos-session-select and symlink to ~/.local/bin
             "L+ /home/${cfg.user}/.local/bin/gaming-mode.desktop - - - - ${
               pkgs.writeTextFile {
                 name = "gaming-mode.desktop";
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=loginctl terminate-session \$XDG_SESSION_ID
+                  Exec=loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
               }
