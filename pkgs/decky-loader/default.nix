@@ -58,7 +58,7 @@ python3.pkgs.buildPythonPackage rec {
     watchdog
   ];
 
-  pythonRelaxDeps = [ "watchdog", "aiohttp" ];
+  pythonRelaxDeps = [ "watchdog" "aiohttp" ];
 
   makeWrapperArgs = [ "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}" ];
 
