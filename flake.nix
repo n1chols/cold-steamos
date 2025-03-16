@@ -100,8 +100,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=systemctl logout
-                  Icon=/path/to/icon.png
+                  Exec=loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
                 executable = true;
