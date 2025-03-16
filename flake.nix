@@ -1,5 +1,5 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
@@ -63,16 +63,16 @@
                   "--fullscreen"
                   "--steam"
                   "--rt"
-                  #"--immediate-flips"
+                  "--immediate-flips"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
-                  extraLibraries = pkgs: [ pkgs.xorg.libxcb ];
                   buildFHSEnv = pkgs.buildFHSEnv.override {
                     bubblewrap = "${config.security.wrapperDir}/..";
                   };
-                })}/bin/steam #\
-                #-tenfoot -steamos3 -pipewire-dmabuf
+                })}/bin/steam \
+                -tenfoot -steamos3 -pipewire-dmabuf -skipinitialbootstrap \
+                > /dev/null 2>&1
               fi
             '')
           ];
