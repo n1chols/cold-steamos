@@ -9,11 +9,9 @@
 }:
 
 python3.pkgs.buildPythonPackage rec {
-  # Package info
   pname = "decky-loader";
   version = "3.1.3";
 
-  # GitHub source
   src = fetchFromGitHub {
     owner = "SteamDeckHomebrew";
     repo = "decky-loader";
@@ -21,7 +19,6 @@ python3.pkgs.buildPythonPackage rec {
     hash = "sha256-wJCSjuZJTYtFVtvVHhfvrxQAUcaI/GT93E2Lcok5Yvk=";
   };
 
-  # Frontend dependencies
   pnpmDeps = pnpm_9.fetchDeps {
     inherit pname version src;
     sourceRoot = "${src.name}/frontend";
@@ -30,29 +27,27 @@ python3.pkgs.buildPythonPackage rec {
 
   pnpmRoot = "frontend";
 
-  # Build environment setup
   pyproject = true;
 
-  nativeBuildInputs = [
-    nodejs
-    pnpm_9.configHook
-  ];
+  nativeBuildInputs = [ nodejs pnpm_9.configHook ];
 
-  build-system = with python3.pkgs; [
-    poetry-core
-    poetry-dynamic-versioning
-  ];
+  build-system = with python3.pkgs; [ poetry-core poetry-dynamic-versioning ];
 
-  # Build steps
   preBuild = ''
     cd frontend
     pnpm build
     cd ../backend
   '';
 
-  # Runtime dependencies
   dependencies = with python3.pkgs; [
-    aiohttp
+    (aiohttp.overrideAttrs (old: rec {
+      version = "3.10.11";
+      src = fetchPypi {
+        pname = "aiohttp";
+        inherit version;
+        hash = "sha256-...";
+      };
+    }))
     aiohttp-cors
     aiohttp-jinja2
     certifi
@@ -64,11 +59,7 @@ python3.pkgs.buildPythonPackage rec {
 
   pythonRelaxDeps = [ "watchdog" ];
 
-  # Wrapper configuration
-  makeWrapperArgs = [
-    "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}"
-  ];
+  makeWrapperArgs = [ "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}" ];
 
-  # Additional attributes
   passthru.python = python3;
 }
