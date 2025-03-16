@@ -1,10 +1,11 @@
-{ lib
-, fetchFromGitHub
-, nodejs
-, pnpm_9
-, python3
-, coreutils
-, psmisc
+{
+  lib,
+  fetchFromGitHub,
+  nodejs,
+  pnpm_9,
+  python3,
+  coreutils,
+  psmisc
 }:
 
 python3.pkgs.buildPythonPackage rec {
