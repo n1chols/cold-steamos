@@ -101,7 +101,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=loginctl terminate-user ${cfg.user}
+                  Exec=loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
               }
