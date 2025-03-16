@@ -96,7 +96,7 @@
             # Ensure ~/.local/share/applications exists and can be accessed
             "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
             # Create 'Return to Gaming Mode' shortcut and symlink to ~/.local/share/applications
-            "L+ /home/${cfg.user}/.local/bin/gaming-mode.desktop - - - - ${
+            "L+ /home/${cfg.user}/.local/share/applications/gaming-mode.desktop - - - - ${
               pkgs.writeTextFile {
                 name = "gaming-mode.desktop";
                 text = ''
