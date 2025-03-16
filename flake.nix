@@ -84,7 +84,7 @@
             # Create steamos-session-select script
             "f /home/${cfg.user}/.local/bin/steamos-session-select 0755 ${cfg.user} users - ${''
               #!/bin/sh
-              touch \$XDG_RUNTIME_DIR/switch-to-desktop
+              touch $XDG_RUNTIME_DIR/switch-to-desktop
               steam -shutdown
             ''}"
             # Ensure ~/.local/share/applications exists and can be accessed
