@@ -79,7 +79,7 @@
           ];
   
           systemd.tmpfiles.rules = [
-            # Ensure ~/.local/bin exists
+            # Ensure ~/.local/bin exists and can be accessed
             "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
             # Create steamos-session-select script
             "f /home/${cfg.user}/.local/bin/steamos-session-select 0755 ${cfg.user} users - ''
@@ -87,7 +87,7 @@
               touch $XDG_RUNTIME_DIR/switch-to-desktop
               steam -shutdown
             ''"
-            # Ensure ~/.local/share/applications exists
+            # Ensure ~/.local/share/applications exists and can be accessed
             "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
             # Create 'Return to Gaming Mode' shortcut
             "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0644 ${cfg.user} users - ''
@@ -134,7 +134,7 @@
           systemd.tmpfiles.rules = [
             # Enable CEF remote debugging
             "f /home/${cfg.user}/.local/share/Steam/.cef-enable-remote-debugging 0644 ${cfg.user} users -"
-            # Ensure /var/lib/decky exists
+            # Ensure /var/lib/decky exists and can be accessed
             "d /var/lib/decky 0755 decky decky -"
           ];
 
