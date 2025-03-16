@@ -70,9 +70,15 @@
                   extraPkgs = p: with p; [
                     mesa
                     libGL
-                    dejavu_fonts
+                    vulkan-loader
                     fontconfig
                     freetype
+                    dejavu_fonts
+                    pkgs.pkgsi686Linux.mesa
+                    pkgs.pkgsi686Linux.libGL
+                    pkgs.pkgsi686Linux.vulkan-loader
+                    pkgs.pkgsi686Linux.fontconfig
+                    pkgs.pkgsi686Linux.freetype
                   ] ++ lib.optionals p.stdenv.hostPlatform.is64bit [
                     config.hardware.graphics.package
                   ] ++ config.hardware.graphics.extraPackages;
