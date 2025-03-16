@@ -68,6 +68,7 @@
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 ${(pkgs.steam.override {
                   extraPkgs = p: with p; [
+                    steam-runtime
                     mesa
                     libGL
                     vulkan-loader
