@@ -101,7 +101,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=loginctl terminate-session $XDG_SESSION_ID
+                  Exec=systemctl logout && loginctl terminate-session $XDG_SESSION_ID
                   Type=Application
                 '';
               }
