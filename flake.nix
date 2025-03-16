@@ -94,7 +94,7 @@
               }
             }"
             # Create 'Return to Gaming Mode' shortcut
-            "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0644 ${cfg.user} users - ${
+            "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0644 ${cfg.user} users ${
               pkgs.writeTextFile {
                 name = "gaming-mode.desktop";
                 text = ''
