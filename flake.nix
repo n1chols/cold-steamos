@@ -93,6 +93,8 @@
                 executable = true;
               }
             }"
+            # Ensure ~/.local/share/applications exists and can be accessed
+            "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
             # Create 'Return to Gaming Mode' shortcut
             "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0755 ${cfg.user} users - ${
               pkgs.writeTextFile {
