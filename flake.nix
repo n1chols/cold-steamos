@@ -26,13 +26,8 @@
           type = lib.types.str;
         };
         desktopSession = lib.mkOption {
-          startCommand = lib.mkOption {
-            type = lib.types.str;
-            default = "steam-session";
-          };
-          stopCommand = lib.mkOption {
-            type = lib.types.str;
-          };
+          type = lib.types.str;
+          default = "steam-session";
         };
       };
 
@@ -61,7 +56,7 @@
               #!/bin/sh
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
                 rm $XDG_RUNTIME_DIR/switch-to-desktop
-                exec ${cfg.desktopSession.startCommand}
+                exec ${cfg.desktopSession}
               else
                 exec ${config.security.wrapperDir}/gamescope \
                 ${lib.concatStringsSep " " ([
@@ -106,7 +101,7 @@
                 text = ''
                   [Desktop Entry]
                   Name=Return to Gaming Mode
-                  Exec=${cfg.desktopSession.stopCommand}
+                  Exec=systemctl logout
                   Type=Application
                 '';
               }
