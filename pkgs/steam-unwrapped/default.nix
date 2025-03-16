@@ -1,6 +1,6 @@
 {
-  steam-unwrapped
-  , fetchurl
+  steam-unwrapped,
+  fetchurl
 }:
 
 let
