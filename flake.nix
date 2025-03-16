@@ -78,10 +78,10 @@
           ];
   
           systemd.tmpfiles.rules = [
-            # Ensure ~/.local/bin exists and can be accessed
-            "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
-            # Create steamos-session-select and symlink to ~/.local/bin
-            "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
+            # Ensure ~/.local/state exists and can be accessed
+            "d /home/${cfg.user}/.local/state 0755 ${cfg.user} users -"
+            # Create steamos-session-select and symlink to ~/.local/state
+            "L+ /home/${cfg.user}/.local/state/steamos-session-select - - - - ${
               pkgs.writeTextFile {
                 name = "steamos-session-select";
                 text = ''
@@ -94,9 +94,9 @@
             }"
           ];
   
-          # Add ~/.local/bin to path
+          # Add ~/.local/state to path
           environment.sessionVariables = {
-            PATH = [ "/home/${cfg.user}/.local/bin" ];
+            PATH = [ "/home/${cfg.user}/.local/state" ];
           };
 
           # Add udev rule needed for gamepad emulation
