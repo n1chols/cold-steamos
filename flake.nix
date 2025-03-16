@@ -93,6 +93,22 @@
                 executable = true;
               }
             }"
+            # Create 'Return to Gaming Mode' shortcut
+            "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0644 ${cfg.user} users - ${
+              pkgs.writeTextFile {
+                name = "gaming-mode.desktop";
+                text = ''
+                  [Desktop Entry]
+                  Name=Return to Gaming Mode
+                  Exec=systemctl logout
+                  Icon=/path/to/icon.png
+                  Type=Application
+                '';
+                executable = true;
+              }
+            }"
+            # Symlink gaming mode shortcut to Desktop directory
+            "L+ $XDG_DESKTOP_DIR/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
           ];
   
           # Add ~/.local/bin to path
