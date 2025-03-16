@@ -81,33 +81,21 @@
           systemd.tmpfiles.rules = [
             # Ensure ~/.local/bin exists and can be accessed
             "d /home/${cfg.user}/.local/bin 0755 ${cfg.user} users -"
-            # Create steamos-session-select and symlink to ~/.local/bin
-            "L+ /home/${cfg.user}/.local/bin/steamos-session-select - - - - ${
-              pkgs.writeTextFile {
-                name = "steamos-session-select";
-                text = ''
-                  #!/bin/sh
-                  touch $XDG_RUNTIME_DIR/switch-to-desktop
-                  steam -shutdown
-                '';
-                executable = true;
-              }
-            }"
+            # Create steamos-session-select script
+            "f /home/${cfg.user}/.local/bin/steamos-session-select 0755 ${cfg.user} users - ${''
+              #!/bin/sh
+              touch \$XDG_RUNTIME_DIR/switch-to-desktop
+              steam -shutdown
+            ''}"
             # Ensure ~/.local/share/applications exists and can be accessed
             "d /home/${cfg.user}/.local/share/applications 0755 ${cfg.user} users -"
-            # Create 'Return to Gaming Mode' shortcut and symlink to ~/.local/share/applications
-            # Create steamos-session-select and symlink to ~/.local/bin
-            "L+ /home/${cfg.user}/.local/bin/gaming-mode.desktop - - - - ${
-              pkgs.writeTextFile {
-                name = "gaming-mode.desktop";
-                text = ''
-                  [Desktop Entry]
-                  Name=Return to Gaming Mode
-                  Exec=loginctl terminate-session \$XDG_SESSION_ID
-                  Type=Application
-                '';
-              }
-            }"
+            # Create 'Return to Gaming Mode' shortcut
+            "f /home/${cfg.user}/.local/share/applications/gaming-mode.desktop 0644 ${cfg.user} users - ${''
+              [Desktop Entry]
+              Name=Return to Gaming Mode
+              Exec=loginctl terminate-session $XDG_SESSION_ID
+              Type=Application
+            ''}"
             # Symlink 'Return to Gaming Mode' shortcut to desktop
             "L+ /home/${cfg.user}/Desktop/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
           ];
