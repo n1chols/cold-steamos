@@ -107,7 +107,7 @@
               }
             }"
             # Symlink 'Return to Gaming Mode' shortcut to desktop
-            "L+ $XDG_DESKTOP_DIR/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
+            "L+ /home/${cfg.user}/Desktop/gaming-mode.desktop - - - - /home/${cfg.user}/.local/share/applications/gaming-mode.desktop"
           ];
   
           # Add ~/.local/bin to path
