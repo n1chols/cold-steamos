@@ -63,7 +63,6 @@
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
                 rm $XDG_RUNTIME_DIR/switch-to-desktop
                 exec ${cfg.desktopSession}
-                steam -silent
               else
                 exec ${config.security.wrapperDir}/gamescope \
                 ${lib.concatStringsSep " " ([
