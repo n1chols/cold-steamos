@@ -2,10 +2,10 @@
 A simple flake to turn any device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
-- Gamescope realtime (always enabled)
+- 'Switch to Desktop' session
+- Gamescope real-time enabled
 - HDR/VRR
 - [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader)
-- 'Switch to Desktop' session
 
 ## Usage
 ```nixos
