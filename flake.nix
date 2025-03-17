@@ -72,8 +72,7 @@
                   "--immediate-flips"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                ${pkgs.steam}/bin/steam \
-                -tenfoot -steamos3 -pipewire-dmabuf \
+                steam -tenfoot -steamos3 -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
             '')
