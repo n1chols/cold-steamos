@@ -50,13 +50,14 @@
             };
           };
   
-          # Install steam-session script with wrappers
           environment.systemPackages = [
+            # Install steam with setuid bubblewrap
             (pkgs.steam.override {
               buildFHSEnv = pkgs.buildFHSEnv.override {
                 bubblewrap = "${config.security.wrapperDir}/..";
               };
             })
+            # Install steam-session script
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
