@@ -52,6 +52,11 @@
   
           # Install steam-session script with wrappers
           environment.systemPackages = [
+            (pkgs.steam.override {
+              buildFHSEnv = pkgs.buildFHSEnv.override {
+                bubblewrap = "${config.security.wrapperDir}/..";
+              };
+            })
             (pkgs.writeShellScriptBin "steam-session" ''
               #!/bin/sh
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
@@ -66,11 +71,7 @@
                   "--immediate-flips"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                ${(pkgs.steam.override {
-                  buildFHSEnv = pkgs.buildFHSEnv.override {
-                    bubblewrap = "${config.security.wrapperDir}/..";
-                  };
-                })}/bin/steam \
+                ${pkgs.steam}/bin/steam \
                 -tenfoot -steamos3 -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
