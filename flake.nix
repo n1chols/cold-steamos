@@ -70,6 +70,7 @@
                   "--steam"
                   "--rt"
                   "--immediate-flips"
+                  "--force-grab-cursor"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
                 steam -tenfoot -steamos3 -pipewire-dmabuf \
