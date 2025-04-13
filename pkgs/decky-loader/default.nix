@@ -50,7 +50,7 @@ python3.pkgs.buildPythonPackage rec {
     watchdog
   ];
 
-  pythonRelaxDeps = [ "aiohttp-cors" "watchdog" ];
+  pythonRelaxDeps = [ "aiohttp" "watchdog" ];
 
   makeWrapperArgs = [ "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}" ];
 
