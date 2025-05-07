@@ -69,7 +69,16 @@
                   "--force-grab-cursor"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                steam -tenfoot -steamos3 -pipewire-dmabuf \
+                env \
+                ${lib.concatStringsSep " " ([
+                  "STEAM_MULTIPLE_XWAYLANDS=1"
+                  "STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1"
+                  "STEAM_USE_MANGOAPP=1"
+                  "STEAM_MANGOAPP_PRESETS_SUPPORTED=1"
+                  "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
+                ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
+                  ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} -- \
+                steam -tenfoot -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
             '')
