@@ -40,6 +40,12 @@
             driSupport32Bit = true;
           };
 
+          # (Prob needs to be set inside the FHSEnv)
+          environment.variables = {
+            LD_PRELOAD = "";
+            SteamDeck = "0";
+          };
+
           security.wrappers = {
             # Add gamescope wrapper with renicing (realtime) support
             gamescope = {
