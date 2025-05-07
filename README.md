@@ -11,7 +11,7 @@ A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-N
 ```nixos
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # Add input:
     steam-console.url = "github:n1chols/nixos-steam-console";
   };
@@ -22,7 +22,7 @@ A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-N
       modules = [
         ...
         # Import module:
-        steam-console.nixosModules.default
+        steam-console.modules.default
         ({ ... }: {
           # Configure options:
           steam-console = {
