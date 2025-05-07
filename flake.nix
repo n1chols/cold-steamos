@@ -33,9 +33,6 @@
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
-          # Disable other display managers by default
-          displayManager.*.enable = lib.mkDefault false;
-
           security.wrappers = {
             # Add gamescope wrapper with renicing (realtime) support
             gamescope = {
@@ -113,6 +110,12 @@
                 command = "steam-session";
               };
             };
+          };
+
+          # Force disable other display managers
+          services.displayManager = {
+            sddm.enable = lib.mkForce false;
+            gdm.enable = lib.mkForce false;
           };
         }
         (lib.mkIf cfg.enableDecky {
