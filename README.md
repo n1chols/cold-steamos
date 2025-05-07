@@ -16,7 +16,7 @@ A minimal NixOS flake to turn any device into a SteamOS console. Inspired by [Jo
     cold-steamos.url = "github:n1chols/cold-steamos";
   };
 
-  outputs = { nixpkgs, rime, ... }: {
+  outputs = { nixpkgs, cold-steamos, ... }: {
     nixosConfigurations.steamConsole = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
