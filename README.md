@@ -1,4 +1,4 @@
-# nixos-steam-console
+# rime
 A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
@@ -13,19 +13,19 @@ A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-N
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # Add input:
-    steam-console.url = "github:n1chols/nixos-steam-console";
+    steam-console.url = "github:n1chols/rime";
   };
 
-  outputs = { nixpkgs, steam-console, ... }: {
+  outputs = { nixpkgs, rime, ... }: {
     nixosConfigurations.steamConsole = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ...
         # Import module:
-        steam-console.modules.default
+        rime.modules.default
         ({ ... }: {
           # Configure options:
-          steam-console = {
+          rime = {
             enable = true;
             enableHDR = true;
             enableVRR = true;
