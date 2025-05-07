@@ -1,4 +1,4 @@
-# rime
+# cold-steamos
 A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
@@ -13,7 +13,7 @@ A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-N
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # Add input:
-    steam-console.url = "github:n1chols/rime";
+    cold-steamos.url = "github:n1chols/cold-steamos";
   };
 
   outputs = { nixpkgs, rime, ... }: {
@@ -22,10 +22,10 @@ A minimal flake to turn any device into a SteamOS console. Inspired by [Jovian-N
       modules = [
         ...
         # Import module:
-        rime.modules.default
+        cold-steamos.modules.default
         ({ ... }: {
           # Configure options:
-          rime = {
+          cold-steamos = {
             enable = true;
             enableHDR = true;
             enableVRR = true;
