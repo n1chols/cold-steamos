@@ -27,9 +27,6 @@
             enable32Bit = true;
           };
 
-          # (Prob needs to be set inside the FHSEnv)
-          environment.variables.SteamDeck = "0";
-
           security.wrappers = {
             # Add gamescope wrapper w/ renicing
             gamescope = {
