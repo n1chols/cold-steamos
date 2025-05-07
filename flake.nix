@@ -44,14 +44,14 @@
           environment.variables.SteamDeck = "0";
 
           security.wrappers = {
-            # Add gamescope wrapper with renicing (realtime) support
+            # Add gamescope wrapper w/ renicing
             gamescope = {
               owner = "root";
               group = "root";
               source = "${pkgs.gamescope}/bin/gamescope";
               capabilities = "cap_sys_nice+eip";
             };
-            # Add bubblewrap wrapper with setuid
+            # Add bubblewrap wrapper w/ setuid
             bwrap = {
               owner = "root";
               group = "root";
@@ -61,7 +61,9 @@
           };
   
           environment.systemPackages = [
-            # Install steam with setuid bubblewrap
+            # (Prob needs to be set inside the FHSEnv)
+            pkgs.mangohud
+            # Install steam w/ bubblewrap wrapper
             (pkgs.steam.override {
               buildFHSEnv = pkgs.buildFHSEnv.override {
                 bubblewrap = "${config.security.wrapperDir}/..";
