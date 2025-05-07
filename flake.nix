@@ -3,25 +3,13 @@
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
-      cfg = config.steam-console;
+      cfg = config.cold-steamos;
     in {
-      options.steam-console = {
-        enable = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-        };
-        enableHDR = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-        };
-        enableVRR = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-        };
-        enableDecky = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-        };
+      options.cold-steamos = {
+        enable = lib.mkEnableOption "";
+        enableHDR = lib.mkEnableOption "";
+        enableVRR = lib.mkEnableOption "";
+        enableDecky = lib.mkEnableOption "";
         user = lib.mkOption {
           type = lib.types.str;
         };
@@ -59,19 +47,16 @@
             };
           };
   
-          environment.systemPackages = [
+          environment.systemPackages = with pkgs; [
             # Install steam w/ bubblewrap wrapper
-            (pkgs.steam.override {
-              buildFHSEnv = pkgs.buildFHSEnv.override {
+            (steam.override {
+              buildFHSEnv = buildFHSEnv.override {
                 bubblewrap = "${config.security.wrapperDir}/..";
               };
-              extraPkgs = [
-                steam-hardware
-                mangohud
-              ];
+              extraPkgs = [ steam-hardware mangohud ];
             })
             # Install steam-session script
-            (pkgs.writeShellScriptBin "steam-session" ''
+            (writeShellScriptBin "steam-session" ''
               #!/bin/sh
               if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
                 rm $XDG_RUNTIME_DIR/switch-to-desktop
