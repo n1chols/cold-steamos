@@ -33,6 +33,9 @@
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
+          # Disable other display managers by default
+          displayManager.*.enable = lib.mkDefault false;
+
           security.wrappers = {
             # Add gamescope wrapper with renicing (realtime) support
             gamescope = {
