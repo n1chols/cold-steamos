@@ -60,13 +60,15 @@
           };
   
           environment.systemPackages = [
-            # (Prob needs to be set inside the FHSEnv)
-            pkgs.mangohud
             # Install steam w/ bubblewrap wrapper
             (pkgs.steam.override {
               buildFHSEnv = pkgs.buildFHSEnv.override {
                 bubblewrap = "${config.security.wrapperDir}/..";
               };
+              extraPkgs = [
+                steam-hardware
+                mangohud
+              ];
             })
             # Install steam-session script
             (pkgs.writeShellScriptBin "steam-session" ''
@@ -77,8 +79,9 @@
               else
                 exec ${config.security.wrapperDir}/gamescope \
                 ${lib.concatStringsSep " " ([
-                  "--fullscreen"
                   "--steam"
+                  "--mangoapp"
+                  "--fullscreen"
                   "--rt"
                   "--immediate-flips"
                   "--force-grab-cursor"
