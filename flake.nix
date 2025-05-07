@@ -41,7 +41,6 @@
 
           # (Prob needs to be set inside the FHSEnv)
           environment.variables.SteamDeck = "0";
-          # ?? environment.systemPackages = pkgs.mangohud;
 
           security.wrappers = {
             # Add gamescope wrapper w/ renicing
