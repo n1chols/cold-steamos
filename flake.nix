@@ -34,14 +34,14 @@
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
           # Enable OpenGL w/ 32-bit support
-          hardware.opengl = {
+          hardware.graphics = {
             enable = true;
-            driSupport = true;
-            driSupport32Bit = true;
+            enable32Bit = true;
           };
 
           # (Prob needs to be set inside the FHSEnv)
           environment.variables.SteamDeck = "0";
+          # ?? environment.systemPackages = pkgs.mangohud;
 
           security.wrappers = {
             # Add gamescope wrapper w/ renicing
