@@ -33,6 +33,13 @@
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
+          # Enable OpenGL w/ 32-bit support
+          hardware.opengl = {
+            enable = true;
+            driSupport = true;
+            driSupport32Bit = true;
+          };
+
           security.wrappers = {
             # Add gamescope wrapper with renicing (realtime) support
             gamescope = {
