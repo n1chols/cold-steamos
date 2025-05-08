@@ -1,4 +1,4 @@
-# cold-steamos
+# nixos-steam-console
 A minimal NixOS flake to turn any device into a SteamOS console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
@@ -13,19 +13,19 @@ A minimal NixOS flake to turn any device into a SteamOS console. Inspired by [Jo
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # Add input:
-    cold-steamos.url = "github:n1chols/cold-steamos";
+    steam-console.url = "github:n1chols/nixos-steam-console";
   };
 
-  outputs = { nixpkgs, cold-steamos, ... }: {
+  outputs = { nixpkgs, steam-console, ... }: {
     nixosConfigurations.steamConsole = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ...
         # Import module:
-        cold-steamos.modules.default
+        steam-console.modules.default
         ({ ... }: {
           # Configure options:
-          cold-steamos = {
+          steam-console = {
             enable = true;
             enableHDR = true;
             enableVRR = true;
