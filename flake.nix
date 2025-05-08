@@ -3,9 +3,9 @@
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
-      cfg = config.cold-steamos;
+      cfg = config.steam-console;
     in {
-      options.cold-steamos = {
+      options.steam-console = {
         enable = lib.mkEnableOption "";
         enableHDR = lib.mkEnableOption "";
         enableVRR = lib.mkEnableOption "";
