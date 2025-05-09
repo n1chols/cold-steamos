@@ -15,7 +15,7 @@
         };
         user = lib.mkOption {
           type = lib.types.str;
-          default = "steamuser";
+          default = "user";
         };
         extraArgs = lib.mkOption {
           type = lib.types.listOf lib.types.str;
