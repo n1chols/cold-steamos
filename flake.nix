@@ -75,10 +75,11 @@
                     "--force-grab-cursor"
                   ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                     ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ] )} -- \
-                  steam \
+                  env STEAM_USE_MANGOAPP=1 steam \
                   ${lib.concatStringsSep " " ([
-                    "-steamos"
+                    "-steamos3"
                     "-tenfoot"
+                    "-fulldesktopres"
                     "-pipewire-dmabuf"
                   ] ++ cfg.extraArgs )} \
                   > /dev/null 2>&1
