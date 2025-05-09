@@ -84,10 +84,10 @@
                 fi
               '')
             ];
-            #sessionVariables = {
-            #  # Add ~/.local/bin to path
-            #  PATH = [ "/home/${cfg.user}/.local/bin" ];
-            #};
+            sessionVariables = {
+              # Add ~/.local/bin to path
+              PATH = [ "/home/${cfg.user}/.local/bin" ];
+            };
           };
   
           systemd.tmpfiles.rules = [
