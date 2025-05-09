@@ -72,7 +72,7 @@
                     "--force-grab-cursor"
                   ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                     ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                  steam -tenfoot -pipewire-dmabuf \
+                  steam -steamos3 -tenfoot -pipewire-dmabuf \
                   > /dev/null 2>&1
                 fi
               '')
