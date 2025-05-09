@@ -44,45 +44,51 @@
             };
           };
   
-          environment.systemPackages = with pkgs; [
-            # Install steam w/ bubblewrap wrapper
-            (steam.override {
-              buildFHSEnv = buildFHSEnv.override {
-                bubblewrap = "${config.security.wrapperDir}/..";
-              };
-              extraPkgs = [ steam-hardware mangohud ];
-            })
-            # Install steam-session script
-            (writeShellScriptBin "steam-session" ''
-              #!/bin/sh
-              if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
-                rm $XDG_RUNTIME_DIR/switch-to-desktop
-                exec ${cfg.desktopSession}
-              else
-                exec ${config.security.wrapperDir}/gamescope \
-                ${lib.concatStringsSep " " ([
-                  "--steam"
-                  "--mangoapp"
-                  "--fullscreen"
-                  "--rt"
-                  "--immediate-flips"
-                  "--force-grab-cursor"
-                ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
-                  ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                env \
-                ${lib.concatStringsSep " " ([
-                  "STEAM_MULTIPLE_XWAYLANDS=1"
-                  "STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1"
-                  "STEAM_USE_MANGOAPP=1"
-                  "STEAM_MANGOAPP_PRESETS_SUPPORTED=1"
-                  "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
-                ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
-                  ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} -- \
-                steam -tenfoot -pipewire-dmabuf \
-                > /dev/null 2>&1
-              fi
-            '')
-          ];
+          environment = {
+            systemPackages = with pkgs; [
+              # Install steam w/ bubblewrap wrapper
+              (steam.override {
+                buildFHSEnv = buildFHSEnv.override {
+                  bubblewrap = "${config.security.wrapperDir}/..";
+                };
+                extraPkgs = [ steam-hardware mangohud ];
+              })
+              # Install steam-session script
+              (writeShellScriptBin "steam-session" ''
+                #!/bin/sh
+                if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
+                  rm $XDG_RUNTIME_DIR/switch-to-desktop
+                  exec ${cfg.desktopSession}
+                else
+                  exec ${config.security.wrapperDir}/gamescope \
+                  ${lib.concatStringsSep " " ([
+                    "--steam"
+                    "--mangoapp"
+                    "--fullscreen"
+                    "--rt"
+                    "--immediate-flips"
+                    "--force-grab-cursor"
+                  ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
+                    ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
+                  env \
+                  ${lib.concatStringsSep " " ([
+                    "STEAM_MULTIPLE_XWAYLANDS=1"
+                    "STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1"
+                    "STEAM_USE_MANGOAPP=1"
+                    "STEAM_MANGOAPP_PRESETS_SUPPORTED=1"
+                    "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
+                  ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
+                    ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} -- \
+                  steam -tenfoot -pipewire-dmabuf \
+                  > /dev/null 2>&1
+                fi
+              '')
+            ];
+            sessionVariables = {
+              # Add ~/.local/bin to path
+              PATH = [ "/home/${cfg.user}/.local/bin" ];
+            };
+          };
   
           systemd.tmpfiles.rules = [
             # Ensure ~/.local/bin exists and can be accessed
@@ -101,26 +107,20 @@
             }"
           ];
   
-          # Add ~/.local/bin to path
-          environment.sessionVariables = {
-            PATH = [ "/home/${cfg.user}/.local/bin" ];
-          };
-  
-          # Make steam-session the default session
-          services.greetd = {
-            enable = true;
-            settings = {
-              default_session = {
+          services = {
+            # Make steam-session the default session w/ greetd
+            greetd = {
+              enable = true;
+              settings.default_session = {
                 user = cfg.user;
                 command = "steam-session";
               };
             };
-          };
-
-          # Force disable other display managers
-          services.displayManager = {
-            sddm.enable = lib.mkForce false;
-            gdm.enable = lib.mkForce false;
+            # Force disable the other display managers
+            displayManager = {
+              sddm.enable = lib.mkForce false;
+              gdm.enable = lib.mkForce false;
+            };
           };
         }
         (lib.mkIf cfg.enableDecky {
