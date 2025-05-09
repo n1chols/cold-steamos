@@ -29,9 +29,15 @@ python3.pkgs.buildPythonPackage rec {
 
   pyproject = true;
 
-  nativeBuildInputs = [ nodejs pnpm_9.configHook ];
+  nativeBuildInputs = [
+    nodejs
+    pnpm_9.configHook
+  ];
 
-  build-system = with python3.pkgs; [ poetry-core poetry-dynamic-versioning ];
+  build-system = with python3.pkgs; [
+    poetry-core
+    poetry-dynamic-versioning
+  ];
 
   preBuild = ''
     cd frontend
@@ -50,9 +56,14 @@ python3.pkgs.buildPythonPackage rec {
     watchdog
   ];
 
-  pythonRelaxDeps = [ "aiohttp" "watchdog" ];
+  pythonRelaxDeps = [
+    "aiohttp-cors"
+    "watchdog"
+  ];
 
-  makeWrapperArgs = [ "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}" ];
+  makeWrapperArgs = [
+    "--prefix PATH : ${lib.makeBinPath [ coreutils psmisc ]}"
+  ];
 
   passthru.python = python3;
 }
