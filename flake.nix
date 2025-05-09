@@ -55,7 +55,7 @@
                 buildFHSEnv = buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
                 };
-                extraPkgs = [ steam-hardware mangohud ];
+                extraPkgs = pkgs: [ pkgs.mangohud ];
                 #steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
               })
               # Install steam-session script
