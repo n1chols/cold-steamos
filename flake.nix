@@ -1,5 +1,6 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  # ^^ see if you can get away with not setting this ^^
 
   outputs = { ... }: {
     nixosModules.default = { config, lib, pkgs, ... }: let
