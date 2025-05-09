@@ -11,6 +11,7 @@
         enableHDR = lib.mkEnableOption "";
         enableVRR = lib.mkEnableOption "";
         enableDecky = lib.mkEnableOption "";
+        enablePlymouth = lib.mkEnableOption "";
         user = lib.mkOption {
           type = lib.types.str;
         };
@@ -157,6 +158,9 @@
               TimeoutStopSec = 15;
             };
           };
+        })
+        (lib.mkIf cfg.enablePlymouth {
+          # todo
         })
       ]);
     };
