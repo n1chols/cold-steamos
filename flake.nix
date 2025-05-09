@@ -46,12 +46,13 @@
   
           environment = {
             systemPackages = with pkgs; [
-              # Install steam w/ bubblewrap wrapper
+              # Install steam w/ bubblewrap wrapper & custom steam-unwrapped
               (steam.override {
                 buildFHSEnv = buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
                 };
-                extraPkgs = [ steam-hardware mangohud ];
+                steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
+                #extraPkgs = [ steam-hardware mangohud ];
               })
               # Install steam-session script
               (writeShellScriptBin "steam-session" ''
