@@ -109,7 +109,7 @@
               enable = true;
               settings.default_session = {
                 command = "steam-session";
-                user = ${cfg.user};
+                user = "${cfg.user}";
               };
             };
             # Force disable the other display managers
