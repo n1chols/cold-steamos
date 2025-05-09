@@ -48,13 +48,12 @@
   
           environment = {
             systemPackages = with pkgs; [
-              # Install steam w/ bubblewrap wrapper & custom steam-unwrapped
+              # Install steam w/ bubblewrap wrapper
               (steam.override {
                 buildFHSEnv = buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
                 };
                 steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
-                #extraPkgs = [ steam-hardware mangohud ];
               })
               # Install steam-session script
               (writeShellScriptBin "steam-session" ''
@@ -66,22 +65,13 @@
                   exec ${config.security.wrapperDir}/gamescope \
                   ${lib.concatStringsSep " " ([
                     "--steam"
-                    "--mangoapp"
+                    #"--mangoapp"
                     "--fullscreen"
                     "--rt"
                     "--immediate-flips"
                     "--force-grab-cursor"
                   ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                     ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
-                  env \
-                  ${lib.concatStringsSep " " ([
-                    "STEAM_MULTIPLE_XWAYLANDS=1"
-                    "STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1"
-                    "STEAM_USE_MANGOAPP=1"
-                    "STEAM_MANGOAPP_PRESETS_SUPPORTED=1"
-                    "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
-                  ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
-                    ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} -- \
                   steam -tenfoot -pipewire-dmabuf \
                   > /dev/null 2>&1
                 fi
