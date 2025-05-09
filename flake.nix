@@ -24,7 +24,7 @@
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
-          # Ensure that specified user can be used
+          # Ensure that cfg.user exists and has permissions
           users.users.${cfg.user} = {
             isNormalUser = true;
             extraGroups = [ "audio" "video" "networkmanager" ];
