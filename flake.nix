@@ -1,9 +1,6 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  # ^^ see if you can get away with not setting this ^^
-
-  outputs = { ... }: {
-    modules.default = { config, lib, pkgs, ... }: let
+  outputs = { self, nixpkgs }: {
+    nixosModules.default = { config, lib, pkgs, ... }: let
       cfg = config.steam-console;
     in {
       options.steam-console = {
@@ -14,6 +11,7 @@
         enablePlymouth = lib.mkEnableOption "";
         user = lib.mkOption {
           type = lib.types.str;
+          default = "steamuser";
         };
         desktopSession = lib.mkOption {
           type = lib.types.str;
@@ -53,7 +51,7 @@
                 buildFHSEnv = buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
                 };
-                #steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
+                steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
               })
               # Install steam-session script
               (writeShellScriptBin "steam-session" ''
@@ -65,13 +63,22 @@
                   exec ${config.security.wrapperDir}/gamescope \
                   ${lib.concatStringsSep " " ([
                     "--steam"
-                    #"--mangoapp"
+                    "--mangoapp"
                     "--fullscreen"
                     "--rt"
                     "--immediate-flips"
                     "--force-grab-cursor"
                   ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                     ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ])} -- \
+                  env \
+                  ${lib.concatStringsSep " " ([
+                    "STEAM_MULTIPLE_XWAYLANDS=1"
+                    "STEAM_GAMESCOPE_FANCY_SCALING_SUPPORT=1"
+                    "STEAM_USE_MANGOAPP=1"
+                    "STEAM_MANGOAPP_PRESETS_SUPPORTED=1"
+                    "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
+                  ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
+                    ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} \
                   steam -steamos3 -tenfoot -pipewire-dmabuf \
                   > /dev/null 2>&1
                 fi
@@ -110,8 +117,8 @@
               };
             };
             # Force disable the other display managers
-            displayManager.sddm.enable = lib.mkForce false;
-            xserver.displayManager.gdm.enable = lib.mkForce false;
+            #displayManager.sddm.enable = lib.mkForce false;
+            #xserver.displayManager.gdm.enable = lib.mkForce false;
           };
         }
         (lib.mkIf cfg.enableDecky {
