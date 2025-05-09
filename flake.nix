@@ -77,7 +77,7 @@
                     ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ] )} -- \
                   steam \
                   ${lib.concatStringsSep " " ([
-                    "-steamos3"
+                    "-steamdeck"
                     "-tenfoot"
                     "-pipewire-dmabuf"
                   ] ++ cfg.extraArgs )} \
