@@ -8,23 +8,28 @@
         enableHDR = lib.mkEnableOption "";
         enableVRR = lib.mkEnableOption "";
         enableDecky = lib.mkEnableOption "";
-        enablePlymouth = lib.mkEnableOption "";
+        user = lib.mkOption {
+          type = lib.types.str;
+          default = "steamuser";
+        };
         desktopSession = lib.mkOption {
           type = lib.types.str;
           default = "steam-session";
         };
-        user = lib.mkOption {
-          type = lib.types.str;
-          default = "user";
-        };
         extraArgs = lib.mkOption {
           type = lib.types.listOf lib.types.str;
-          default = [ "-userchooser" ];
+          default = [];
         };
       };
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
+          # Ensure that specified user can be used
+          users.users.${cfg.user} = {
+            isNormalUser = true;
+            extraGroups = [ "audio" "video" ""networkmanager" ];
+          };
+
           # Enable OpenGL w/ 32-bit support
           hardware.graphics = {
             enable = true;
@@ -48,50 +53,40 @@
             };
           };
   
-          environment = {
-            systemPackages = with pkgs; [
-              # Install steam w/ bubblewrap wrapper
-              (steam.override {
-                buildFHSEnv = buildFHSEnv.override {
-                  bubblewrap = "${config.security.wrapperDir}/..";
-                };
-                extraPkgs = pkgs: [ pkgs.mangohud ];
-                #steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
-              })
-              # Install steam-session script
-              (writeShellScriptBin "steam-session" ''
-                #!/bin/sh
-                if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
-                  rm $XDG_RUNTIME_DIR/switch-to-desktop
-                  exec ${cfg.desktopSession}
-                else
-                  exec ${config.security.wrapperDir}/gamescope \
-                  ${lib.concatStringsSep " " ([
-                    "--steam"
-                    "--mangoapp"
-                    "--fullscreen"
-                    "--rt"
-                    "--immediate-flips"
-                    "--force-grab-cursor"
-                  ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
-                    ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ]
-                  )} -- \
-                  steam \
-                  ${lib.concatStringsSep " " ([
-                    "-steamos3"
-                    "-tenfoot"
-                    "-pipewire-dmabuf"
-                  ] ++ cfg.extraArgs
-                  )} \
-                  > /dev/null 2>&1
-                fi
-              '')
-            ];
-            sessionVariables = {
-              # Add ~/.local/bin to path
-              PATH = [ "/home/${cfg.user}/.local/bin" ];
-            };
-          };
+          environment.systemPackages = [
+            # Install steam w/ bubblewrap wrapper
+            (pkgs.steam.override {
+              buildFHSEnv = pkgs.buildFHSEnv.override {
+                bubblewrap = "${config.security.wrapperDir}/..";
+              };
+            })
+            # Install steam-session script
+            (pkgs.writeShellScriptBin "steam-session" ''
+              #!/bin/sh
+              if [ -r $XDG_RUNTIME_DIR/switch-to-desktop ]; then
+                rm $XDG_RUNTIME_DIR/switch-to-desktop
+                exec ${cfg.desktopSession}
+              else
+                exec ${config.security.wrapperDir}/gamescope \
+                ${lib.concatStringsSep " " ([
+                  "--steam"
+                  "--mangoapp"
+                  "--fullscreen"
+                  "--rt"
+                  "--immediate-flips"
+                  "--force-grab-cursor"
+                ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
+                  ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ] )} -- \
+                steam \
+                ${lib.concatStringsSep " " ([
+                  "-steamos3"
+                  "-tenfoot"
+                  "-pipewire-dmabuf"
+                ] ++ cfg.extraArgs )} \
+                > /dev/null 2>&1
+              fi
+            '')
+          ];
   
           systemd.tmpfiles.rules = [
             # Ensure ~/.local/bin exists and can be accessed
@@ -110,23 +105,18 @@
             }"
           ];
 
-          users.users.steamuser = {
-            isNormalUser = true;
-            extraGroups = [ "networkmanager" ];
+          # Add ~/.local/bin to path
+          environment.sessionVariables = {
+            PATH = [ "/home/${cfg.user}/.local/bin" ];
           };
-  
-          services = {
-            # Make steam-session the default session w/ greetd
-            greetd = {
-              enable = true;
-              settings.default_session = {
-                command = "steam-session";
-                user = "${cfg.user}";
-              };
+
+          # Make steam-session the default session
+          services.greetd = {
+            enable = true;
+            settings.default_session = {
+              command = "steam-session";
+              user = "${cfg.user}";
             };
-            # Force disable the other display managers
-            #displayManager.sddm.enable = lib.mkForce false;
-            #xserver.displayManager.gdm.enable = lib.mkForce false;
           };
         }
         (lib.mkIf cfg.enableDecky {
@@ -162,22 +152,6 @@
             };
           };
         })
-        (lib.mkIf cfg.enablePlymouth {
-          environment.etc."plymouth/logo.png" = {
-            source = ./files/logo.png;
-            mode = "0644";
-          };
-
-          boot = {
-            plymouth = {
-              enable = true;
-              theme = "breeze";
-              themePackages = [ pkgs.plymouth.themes.breeze ];
-              logo = ./files/logo.png;
-            };
-            kernelParams = [ "quiet" "splash" ];
-          };
-        });
       ];
     };
   };
