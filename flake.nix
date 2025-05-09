@@ -79,7 +79,7 @@
                     "STEAM_DISABLE_MANGOAPP_ATOM_WORKAROUND=1"
                   ] ++ lib.optionals cfg.enableHDR [ "STEAM_GAMESCOPE_HDR_SUPPORTED=1" ]
                     ++ lib.optionals cfg.enableVRR [ "STEAM_GAMESCOPE_VRR_SUPPORTED=1" ])} \
-                  steam -steamos3 -tenfoot -pipewire-dmabuf \
+                  steam -steamos3 -tenfoot -nointro -pipewire-dmabuf \
                   > /dev/null 2>&1
                 fi
               '')
