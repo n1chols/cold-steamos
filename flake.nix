@@ -163,9 +163,22 @@
           };
         })
         (lib.mkIf cfg.enablePlymouth {
-          # todo
-        })
-      ]);
+          environment.etc."plymouth/logo.png" = {
+            source = ./files/logo.png;
+            mode = "0644";
+          };
+
+          boot = {
+            plymouth = {
+              enable = true;
+              theme = "breeze";
+              themePackages = [ pkgs.plymouth.themes.breeze ];
+              logo = ./files/logo.png;
+            };
+            kernelParams = [ "quiet" "splash" ];
+          };
+        });
+      ];
     };
   };
 }
