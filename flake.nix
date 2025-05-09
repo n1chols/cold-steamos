@@ -13,6 +13,10 @@
           type = lib.types.str;
           default = "steam-session";
         };
+        user = lib.mkOption {
+          type = lib.types.str;
+          default = "steamuser";
+        };
       };
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
