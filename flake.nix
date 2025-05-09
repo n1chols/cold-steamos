@@ -3,7 +3,7 @@
   # ^^ see if you can get away with not setting this ^^
 
   outputs = { ... }: {
-    nixosModules.default = { config, lib, pkgs, ... }: let
+    modules.default = { config, lib, pkgs, ... }: let
       cfg = config.steam-console;
     in {
       options.steam-console = {
