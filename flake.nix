@@ -15,7 +15,7 @@
         };
         user = lib.mkOption {
           type = lib.types.str;
-          default = "steamuser";
+          default = "user";
         };
       };
 
@@ -109,7 +109,7 @@
               enable = true;
               settings.default_session = {
                 command = "steam-session";
-                user = "steamuser";
+                user = ${cfg.user};
               };
             };
             # Force disable the other display managers
