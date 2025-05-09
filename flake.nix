@@ -51,7 +51,7 @@
                 buildFHSEnv = buildFHSEnv.override {
                   bubblewrap = "${config.security.wrapperDir}/..";
                 };
-                steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
+                #steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
               })
               # Install steam-session script
               (writeShellScriptBin "steam-session" ''
