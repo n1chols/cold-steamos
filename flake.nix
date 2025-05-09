@@ -27,7 +27,7 @@
           # Ensure that specified user can be used
           users.users.${cfg.user} = {
             isNormalUser = true;
-            extraGroups = [ "audio" "video" ""networkmanager" ];
+            extraGroups = [ "audio" "video" "networkmanager" ];
           };
 
           # Enable OpenGL w/ 32-bit support
