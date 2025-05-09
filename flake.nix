@@ -9,10 +9,6 @@
         enableVRR = lib.mkEnableOption "";
         enableDecky = lib.mkEnableOption "";
         enablePlymouth = lib.mkEnableOption "";
-        user = lib.mkOption {
-          type = lib.types.str;
-          default = "steamuser";
-        };
         desktopSession = lib.mkOption {
           type = lib.types.str;
           default = "steam-session";
@@ -106,14 +102,19 @@
               }
             }"
           ];
+
+          users.users.steamuser = {
+            isNormalUser = true;
+            extraGroups = [ "networkmanager" ];
+          };
   
           services = {
             # Make steam-session the default session w/ greetd
             greetd = {
               enable = true;
               settings.default_session = {
-                user = cfg.user;
                 command = "steam-session";
+                user = "steamuser";
               };
             };
             # Force disable the other display managers
