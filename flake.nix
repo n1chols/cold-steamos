@@ -120,10 +120,8 @@
               };
             };
             # Force disable the other display managers
-            displayManager = {
-              sddm.enable = lib.mkForce false;
-              gdm.enable = lib.mkForce false;
-            };
+            displayManager.sddm.enable = lib.mkForce false;
+            xserver.displayManager.gdm.enable = lib.mkForce false;
           };
         }
         (lib.mkIf cfg.enableDecky {
