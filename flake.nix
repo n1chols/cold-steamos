@@ -106,16 +106,14 @@
           ];
 
           # Add ~/.local/bin to path
-          environment.sessionVariables = {
-            PATH = [ "/home/${cfg.user}/.local/bin" ];
-          };
+          environment.sessionVariables.PATH = [ "/home/${cfg.user}/.local/bin" ];
 
           # Make steam-session the default session
           services.greetd = {
             enable = true;
             settings.default_session = {
               command = "steam-session";
-              user = "${cfg.user}";
+              user = cfg.user;
             };
           };
         }
