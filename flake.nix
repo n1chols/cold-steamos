@@ -41,11 +41,12 @@
           };
   
           environment.systemPackages = [
-            # Install steam w/ bubblewrap wrapper
+            # Install steam w/ bubblewrap wrapper and steam-unwrapped fix
             (pkgs.steam.override {
               buildFHSEnv = pkgs.buildFHSEnv.override {
                 bubblewrap = "${config.security.wrapperDir}/..";
               };
+              steam-unwrapped = pkgs.callPackage ./pkgs/steam-unwrapped {};
             })
             # Install steam-session script
             (pkgs.writeShellScriptBin "steam-session" ''
