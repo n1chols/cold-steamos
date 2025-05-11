@@ -16,13 +16,13 @@ A minimal NixOS flake to turn any device into a SteamOS-like game console. Inspi
     steam-console.url = "github:n1chols/nixos-steam-console";
   };
 
-  outputs = { nixpkgs, steam-console, ... }: {
+  outputs = { nixpkgs, steam-console }: {
     nixosConfigurations.steamConsole = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ...
         # Import module:
-        steam-console.modules.default
+        steam-console.nixosModules.default
         ({ ... }: {
           # Configure options:
           steam-console = {
