@@ -57,7 +57,6 @@
                 exec ${config.security.wrapperDir}/gamescope \
                 ${lib.concatStringsSep " " ([
                   "--steam"
-                  "--mangoapp"
                   "--fullscreen"
                   "--rt"
                   "--immediate-flips"
