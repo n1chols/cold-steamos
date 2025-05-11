@@ -16,15 +16,11 @@
           type = lib.types.str;
           default = "steam-session";
         };
-        extraArgs = lib.mkOption {
-          type = lib.types.listOf lib.types.str;
-          default = [];
-        };
       };
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
-          # Ensure that cfg.user exists and has permissions
+          # Ensure that our user exists and has the right permissions
           users.users.${cfg.user} = {
             isNormalUser = true;
             extraGroups = [ "audio" "video" "networkmanager" ];
@@ -77,12 +73,7 @@
                   "--force-grab-cursor"
                 ] ++ lib.optionals cfg.enableHDR [ "--hdr-enabled" "--hdr-itm-enable" ]
                   ++ lib.optionals cfg.enableVRR [ "--adaptive-sync" ] )} -- \
-                steam \
-                ${lib.concatStringsSep " " ([
-                  "-steamos3"
-                  "-tenfoot"
-                  "-pipewire-dmabuf"
-                ] ++ cfg.extraArgs )} \
+                steam -steamos3 -tenfoot -pipewire-dmabuf \
                 > /dev/null 2>&1
               fi
             '')
