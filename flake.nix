@@ -8,10 +8,7 @@
         enableHDR = lib.mkEnableOption "";
         enableVRR = lib.mkEnableOption "";
         enableDecky = lib.mkEnableOption "";
-        user = lib.mkOption {
-          type = lib.types.str;
-          default = "steamuser";
-        };
+        user.type = lib.types.str;
         desktopSession = lib.mkOption {
           type = lib.types.str;
           default = "steam-session";
@@ -20,12 +17,6 @@
 
       config = lib.mkIf cfg.enable (lib.mkMerge [
         {
-          # Ensure that our user exists and has the right permissions
-          users.users.${cfg.user} = {
-            isNormalUser = true;
-            extraGroups = [ "audio" "video" "networkmanager" ];
-          };
-
           # Enable OpenGL w/ 32-bit support
           hardware.graphics = {
             enable = true;
