@@ -32,7 +32,6 @@ A minimal NixOS flake to turn any PC into a SteamOS-like game console. Inspired 
             enableDecky = true;
             user = "your-user";
             desktopSession = "command-to-start-desktop";
-            # extraArgs = [ "-userchooser" ];
           };
         })
       ];
