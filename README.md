@@ -1,5 +1,5 @@
 # nixos-steam-console
-A minimal NixOS flake to turn any device into a SteamOS-like game console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
+A minimal NixOS flake to turn any PC into a SteamOS-like game console. Inspired by [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS).
 
 ## Features
 - 'Switch to Desktop' session
